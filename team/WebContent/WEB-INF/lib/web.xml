@@ -13,12 +13,12 @@
 	<!-- 배포서술자: 해당 프로젝트에 페이지 요청 시 가장 먼저 체크하는 페이지 -->
 	
 	<servlet>
-		<servlet-name>MemberFrontController</servlet-name>
-		<servlet-class>net.member.action.MemberFrontController</servlet-class>
+		<servlet-name>MemberController</servlet-name>
+		<servlet-class>sns.memger.action.MemberController</servlet-class>
 	</servlet>  
 	
 	<servlet-mapping>
-		<servlet-name>MemberFrontController</servlet-name>
+		<servlet-name>MemberController</servlet-name>
 		<url-pattern>*.me</url-pattern>
 	</servlet-mapping>
 	
