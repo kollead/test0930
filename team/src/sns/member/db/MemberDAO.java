@@ -32,4 +32,27 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	/*public int idCheck(String email) {
+		int check=2;
+		try {
+			con=getCon();
+			sql="select * from member where email=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, email);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				check=1;
+			}else {
+				check=0;
+			}
+			System.out.println("IDCHECK---------");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeDB();
+		}
+		return check;
+	}*/
 }

@@ -2,11 +2,11 @@
 
 <Context>
 	<Resource 
-	name="jdbc/SnsProject"
+	name="jdbc/snsproject"
 	auth="Container"
 	type="javax.sql.DataSource"
 	driverClassName="com.mysql.jdbc.Driver"
-	url="jdbc:mysql://localhost/SnsProject"
+	url="jdbc:mysql://localhost/snsproject"
 	username="root"
 	password="1234"		
 	/>

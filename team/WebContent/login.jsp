@@ -11,6 +11,35 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/color.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <script src="js/jquery.js"></script>
+    <script type="text/javascript">
+    
+    /* $(document).ready(function(){    	  
+    	  $("#email").blur(function(){
+    	    var email = $("#email").val();
+    	    alert(email);
+    	    $.ajax({
+    	    	url: "./IdCheck",
+    	    	type: "POST",
+    	    	data: {email:email},
+    	    	dataType:"text",
+    	    	success: function(data){
+    	    		if(data==1){
+    	    			$("#idcheck").append("사용할 수 없는 email입니다");
+    	    		}
+    	    		if(data==0){
+    	    			$("#idcheck").append("사용할 수 있는 email입니다");
+    	    		}
+    	    	},
+    	    	error: function(data){
+    	    		alert("error");
+    	    	}    	    	
+    	    });
+    	  });
+    	}); */
+   
+    
+    </script>
 </head>
 <body>
 
@@ -43,9 +72,10 @@
 							</p>
 						<form action="Main.me" method="post">
 							<div class="form-group">	
-							  <input type="text" id="input" required="required"/>
-							  <label class="control-label" for="input" id="email" name="email">이메일</label><i class="mtrl-select"></i>
+							  <input type="text" id="email" required="required"/>
+							  <label class="control-label" for="input" id="email">이메일</label><i class="mtrl-select"></i>
 							</div>
+							<div id="idcheck"></div>
 							<div class="form-group">	
 							  <input type="password" required="required"/>
 							  <label class="control-label" for="input" name="pass">비밀번호</label><i class="mtrl-select"></i>
