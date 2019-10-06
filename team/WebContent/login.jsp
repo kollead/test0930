@@ -42,7 +42,21 @@
     </script>
 </head>
 <body>
-
+<%	
+	/*Cookie[] cookies=request.getCookies();
+	String user="",pwd="";
+	if (cookies != null) {
+	     for (Cookie cookie : cookies) {
+	       if (cookie.getName().equals("user")) {
+	           user=cookie.getValue();
+	       }
+	       if(cookie.getName().equals("pwd")){
+	           pwd=cookie.getValue();
+	       }
+	    }
+	    
+	}*/
+%>
 
 <!--<div class="se-pre-con"></div>-->
 <div class="theme-layout">
@@ -70,24 +84,25 @@
 								회원이 아니신가요? <br>
 								<a href="#" title=""> 사이트 먼저 살펴보기</a>
 							</p>
-						<form action="Main.me" method="post">
+						<form action="./LoginAction.me" method="post">
 							<div class="form-group">	
-							  <input type="text" id="email" required="required"/>
-							  <label class="control-label" for="input" id="email">이메일</label><i class="mtrl-select"></i>
+							  <input type="text" id="email"  name="email" required="required" />
+							  <label class="control-label" for="input" id="email" name="email">이메일</label><i class="mtrl-select"></i>
 							</div>
 							<div id="idcheck"></div>
 							<div class="form-group">	
-							  <input type="password" required="required"/>
+							  <input type="password"  name="pass" required="required"/>
 							  <label class="control-label" for="input" name="pass">비밀번호</label><i class="mtrl-select"></i>
 							</div>
 							<div class="checkbox">
 							  <label>
-								<input type="checkbox" checked="checked"/><i class="check-box"></i>로그인 상태 유지
+								<input type="checkbox" checked="checked" name="loginCheck" value="1"/><i class="check-box"></i>로그인 상태 유지
 							  </label>
 							</div>
 							<a href="#" title="" class="forgot-pwd">비밀번호를 잊으셨나요?</a>
 							<div class="submit-btns">
-								<button class="mtr-btn signin" type="button"><span>로그인</span></button>
+							
+								<button class="mtr-btn signin" type="submit"><span>로그인</span></button>
 								<button class="mtr-btn signup" type="button"><span>회원가입</span></button>
 							</div>
 						</form>

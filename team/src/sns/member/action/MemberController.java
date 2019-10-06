@@ -26,10 +26,27 @@ public class MemberController extends HttpServlet{
 		Action action = null;
 		ActionForward forward = null;
 		
-		if(command.equals("/Login.me")){			
+		if(command.equals("/Login.me")){	
+			
 			forward=new ActionForward();
 			forward.setPath("./login.jsp");
 			forward.setRedirect(false);
+			
+		}else if(command.equals("/LoginAction.me")) {
+			
+			action= new LoginAction();
+			try {
+				forward=action.execute(request, response);
+			} catch (Exception e) {				
+				e.printStackTrace();
+			}
+			
+		}else if(command.equals("/Main.me")) {
+			
+			forward=new ActionForward();
+			forward.setPath("./main.jsp");
+			forward.setRedirect(false);
+			
 		}
 		
 		

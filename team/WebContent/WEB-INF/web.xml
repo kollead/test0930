@@ -11,28 +11,27 @@
   </welcome-file-list>
   	
 	<!-- 배포서술자: 해당 프로젝트에 페이지 요청 시 가장 먼저 체크하는 페이지 -->
-	
-	
-	<!-- MemberController -->
-	
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404code.jsp</location>
+	</error-page>
+
 	<servlet>
-		<servlet-name>MemberController</servlet-name>
-		<servlet-class>sns.member.action.MemberController</servlet-class>
+	<servlet-name>MemberController</servlet-name>
+	<servlet-class>sns.member.action.MemberController</servlet-class>
 	</servlet>
-	
+
 	<servlet-mapping>
-		<servlet-name>MemberController</servlet-name>
-		<url-pattern>*.me</url-pattern>
+	<servlet-name>MemberController</servlet-name>
+	<url-pattern>*.me</url-pattern>
 	</servlet-mapping>
-	
-	<!-- MemberController -->
-	
+
 	<!-- 디비 연결정보 -->
 	<resource-ref>
 	<description>SnsProject</description>
-  	<res-ref-name>jdbc/snsproject</res-ref-name>
+  	<res-ref-name>jdbc/SnsProject</res-ref-name>
 	<res-type>javax.sql.DataSource</res-type>
 	<res-auth>Container</res-auth>
 	</resource-ref>
-	
 </web-app>

@@ -55,4 +55,32 @@ public class MemberDAO {
 		}
 		return check;
 	}*/
+	
+	public int login(String email, String pass) {
+		int check=2;
+		
+		try {
+			con=getCon();
+			sql="select password from member where email=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, email);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				if(rs.getString("password").equals(pass)) {
+					check=1;
+				}else {
+					check=0;
+				}
+			}else {
+				check=-1;
+			}
+					
+		} catch (Exception e) {			
+			e.printStackTrace();
+		} finally {
+			closeDB();
+		}
+		
+		return check;
+	}
 }
