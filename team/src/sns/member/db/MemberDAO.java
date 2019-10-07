@@ -33,8 +33,8 @@ public class MemberDAO {
 		}
 	}
 	
-	/*public int idCheck(String email) {
-		int check=2;
+	public int emailCheck(String email) {
+		int check=-1;
 		try {
 			con=getCon();
 			sql="select * from member where email=?";
@@ -54,7 +54,7 @@ public class MemberDAO {
 			closeDB();
 		}
 		return check;
-	}*/
+	}
 	
 	public int login(String email, String pass) {
 		int check=2;

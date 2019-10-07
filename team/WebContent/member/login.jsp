@@ -1,3 +1,4 @@
+<%@page import="sns.member.db.MemberDAO"%>
 <%@page import="sns.member.action.ActionForward"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -54,25 +55,37 @@
 	
 	if(cookies !=null){
 		for(Cookie c : cookies){
-			if(c.getName().equals("AutoLog")){
+			if(c.getName().equals("AutoLog")){//email이 저장된 쿠키
 				cookieE=c.getValue();
 				System.out.println("AutoLog: "+cookieE);
 			}
-			if(c.getName().equals("AutoLogI")){
+			if(c.getName().equals("AutoLogI")){//ip가 저장된 쿠키
 				cookieI=c.getValue();
 				System.out.println("AutoLogI: "+cookieI);
 			}			
 		}
 		
 		if(cookieI!=null&&cookieE!=null){
-			if(cookieI.equals(request.getRemoteAddr())){
-				HttpSession sessionAutoLog=request.getSession();
-				request.setAttribute("email", cookieE);
-				System.out.println("AUTOLOGIN-----");
-				ActionForward forward=new ActionForward();
-				forward.setPath("./Main.me");
-				forward.setRedirect(true);
-				response.sendRedirect(forward.getPath());
+			if(cookieI.equals(request.getRemoteAddr())){//쿠키에 저장된 ip가 현재의 ip와 같고
+				MemberDAO mdao=new MemberDAO();
+				int check=mdao.emailCheck(cookieE);//email이 db에 저장되어 있다면
+				if(check==1){
+					HttpSession sessionAutoLog=request.getSession();//세션을 만들어
+					request.setAttribute("email", cookieE);
+					System.out.println("AUTOLOGIN-----");
+					ActionForward forward=new ActionForward();
+					forward.setPath("./Main.me");//메인으로 보내준다 
+					forward.setRedirect(true);
+					response.sendRedirect(forward.getPath());
+				}else{//쿠키의 ip와 ip는 같지만 db에 존재하지 않는 email라면
+					System.out.println("존재하지 않는 email이므로 쿠키 삭제");
+					Cookie cookie=new Cookie("AutoLog",null);
+					cookie.setMaxAge(0);
+					response.addCookie(cookie);
+					Cookie cookieP=new Cookie("AutoLogI",null);
+					cookieP.setMaxAge(0);
+					response.addCookie(cookie);					
+				}
 			}
 		}
 		
