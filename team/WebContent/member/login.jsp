@@ -15,8 +15,6 @@
     <script src="js/jquery.js"></script>
     <script type="text/javascript">
     
-   
-    
     /* $(document).ready(function(){    	  
     	  $("#email").blur(function(){
     	    var email = $("#email").val();
@@ -40,25 +38,13 @@
     	    });
     	  });
     	}); */
-        
+   
     
     </script>
 </head>
 <body>
 <%	
-	/*Cookie[] cookies=request.getCookies();
-	String user="",pwd="";
-	if (cookies != null) {
-	     for (Cookie cookie : cookies) {
-	       if (cookie.getName().equals("user")) {
-	           user=cookie.getValue();
-	       }
-	       if(cookie.getName().equals("pwd")){
-	           pwd=cookie.getValue();
-	       }
-	    }
-	    
-	}*/
+	
 	System.out.println("Login Java Cookies!---------------");
 	
 	Cookie[] cookies=request.getCookies();
@@ -66,7 +52,7 @@
 	String cookieI="";
 	
 	
-	/* if(cookies !=null){
+	if(cookies !=null){
 		for(Cookie c : cookies){
 			if(c.getName().equals("AutoLog")){
 				cookieE=c.getValue();
@@ -79,10 +65,10 @@
 		}
 		
 		if(cookieI!=null&&cookieE!=null){
-			if(cookieI.equals("kk")){
+			if(cookieI.equals(request.getRemoteAddr())){
 				HttpSession sessionAutoLog=request.getSession();
 				request.setAttribute("email", cookieE);
-				System.out.println("notnull");
+				System.out.println("AUTOLOGIN-----");
 				ActionForward forward=new ActionForward();
 				forward.setPath("./Main.me");
 				forward.setRedirect(true);
@@ -90,7 +76,7 @@
 			}
 		}
 		
-	} */
+	}
 %>
 
 <!--<div class="se-pre-con"></div>-->
@@ -124,7 +110,7 @@
 							  <input type="text" id="email"  name="email" required="required" />
 							  <label class="control-label" for="input" id="email" name="email">이메일</label><i class="mtrl-select"></i>
 							</div>
-							<div id="idcheck"><p>yeah</p></div>
+							<div id="idcheck"></div>
 							<div class="form-group">	
 							  <input type="password"  name="pass" required="required"/>
 							  <label class="control-label" for="input" name="pass">비밀번호</label><i class="mtrl-select"></i>

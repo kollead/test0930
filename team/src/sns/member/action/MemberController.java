@@ -29,7 +29,7 @@ public class MemberController extends HttpServlet{
 		if(command.equals("/Login.me")){	
 			
 			forward=new ActionForward();
-			forward.setPath("./login.jsp");
+			forward.setPath("./member/login.jsp");
 			forward.setRedirect(false);
 			
 		}else if(command.equals("/LoginAction.me")) {
@@ -44,7 +44,7 @@ public class MemberController extends HttpServlet{
 		}else if(command.equals("/Main.me")) {
 			
 			forward=new ActionForward();
-			forward.setPath("./main.jsp");
+			forward.setPath("./member/main.jsp");
 			forward.setRedirect(false);
 			
 		}

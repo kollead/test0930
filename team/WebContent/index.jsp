@@ -10,7 +10,8 @@
 
 	<%
        
-	    response.sendRedirect("./Login.me");
+	    //response.sendRedirect("./Main.me");
+		response.sendRedirect("./Login.me");
 		//response.sendRedirect("./login.jsp");
 	  
 	%>

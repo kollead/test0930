@@ -51,25 +51,29 @@ public class LoginAction implements Action{
 			return null;
 		}
 		
-		if(request.getParameter("loginCheck")!=null) {
-			//로그인 상태 유지 쿠키 생성
-			/*Cookie user=new Cookie("email", email);
-			user.isHttpOnly();
-			user.getSecure();
-			user.setMaxAge(60*60*24*7);
-			user.setDomain("localhost");
-			Cookie pwd=new Cookie("pass",pass);
-			pwd.isHttpOnly();
-			pwd.getSecure();
-			pwd.setMaxAge(60*60*24*7);
-			pwd.setDomain("localhost");
-			response.addCookie(user);
-			response.addCookie(pwd);*/			
-		}		
 		
 		HttpSession session= request.getSession();
 		session.setAttribute("email", email);
 		System.out.println("session 생성 : "+email);
+		
+		if(request.getParameter("loginCheck")!=null) {
+			//로그인 상태 유지 쿠키 생성
+			
+			Cookie cookieE=new Cookie("AutoLog",email);
+			Cookie cookieI=new Cookie("AutoLogI",request.getRemoteAddr());
+			System.out.println("AutoLogI: "+request.getRemoteAddr());
+			cookieE.isHttpOnly();
+			cookieE.getSecure();
+			cookieE.setMaxAge(60*60*24*7);
+			cookieE.setDomain("localhost");
+			cookieI.isHttpOnly();
+			cookieI.getSecure();
+			cookieI.setMaxAge(60*60*24*7);
+			cookieI.setDomain("localhost");
+			response.addCookie(cookieE);
+			response.addCookie(cookieI);
+		}		
+		
 		
 		ActionForward forward=new ActionForward();
 		forward.setPath("./Main.me");
