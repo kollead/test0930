@@ -74,7 +74,7 @@
 					request.setAttribute("email", cookieE);
 					System.out.println("AUTOLOGIN-----");
 					ActionForward forward=new ActionForward();
-					forward.setPath("./Main.ma");//메인으로 보내준다 
+					forward.setPath("./Main.me");//메인으로 보내준다 
 					forward.setRedirect(true);
 					response.sendRedirect(forward.getPath());
 				}else{//쿠키의 ip와 ip는 같지만 db에 존재하지 않는 email라면
@@ -195,8 +195,8 @@
 	</div>
 </div>
 	
-	<script src="./js/main.min.js"></script>
-	<script src="./js/script.js"></script>
+	<script src="../js/main.min.js"></script>
+	<script src="../js/script.js"></script>
 
 </body>
 </html>

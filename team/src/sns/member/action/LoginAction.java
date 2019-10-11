@@ -76,7 +76,7 @@ public class LoginAction implements Action{
 		
 		
 		ActionForward forward=new ActionForward();
-		forward.setPath("./Main.me");
+		forward.setPath("./Main.ma");
 		forward.setRedirect(true);
 				
 		return forward;
