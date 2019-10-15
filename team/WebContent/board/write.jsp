@@ -29,15 +29,20 @@
 </script>
 </head>
 <body>
+	
+
 	<div class="central-meta new-pst">
 		<div class="new-postbox">
 			<figure>
 				<img src="./images/resources/admin2.jpg" alt="">
 			</figure>
+			
 			<div class="newpst-input">
 				<form action="./Login.me" method="post" onsubmit="return write();">
 					
 					<textarea rows="2" placeholder="무슨 일이 일어나고 있나요?" id="content"></textarea>
+					<div id="image_preview">
+					</div>
 					<div class="attachments">
 						<ul>
 							<li>
@@ -48,8 +53,8 @@
 							</li>
 							<li>
 								<i class="fa fa-image"></i>
-								<label class="fileContainer">
-									<input type="file">
+								<label class="fileContainer" onclick="javascript:changeProfile()">
+									<input type="file" id="image"  onchange="preview_image();" accept="image/*" multiple>
 								</label>
 							</li>
 							<li>
@@ -69,6 +74,51 @@
 				</form>
 			</div>
 		</div>
+		
 	</div>
+	
+	
+	<script>
+    
+    var lastValue;
+    if(lastValue==null){
+    	lastValue=0;
+    }else {
+    	 lastValue = document.getElementById("image_preview").lastChild.getAttribute("dataNum");
+    }
+    
+    function preview_image() 
+    {
+     var total_file=document.getElementById("image").files.length;
+     alert("lastValue: "+lastValue);
+     for(var i=0;i<total_file;i++)
+     {        	
+    	
+    	var j=lastValue+1;
+    	
+    	lastValue=j;
+    	alert("i: "+i);
+    	alert("j: "+j);
+    	var html="<img src='"+URL.createObjectURL(event.target.files[i])+"' dataNum='"+ j +"' onclick='deleteImageAction("+ j +")' class='preview"+j+"' style='width:80px; height:80px;''>"
+      	$('#image_preview').append(html);
+      	alert(URL.createObjectURL(event.target.files[i]));      
+     }
+     window.URL.revokeObjectURL(objectURL);
+    }
+    
+    function deleteImageAction(dataNum) {
+              
+        var preview = ".preview"+dataNum;
+        alert(preview);
+        
+        $(preview).remove(); 
+    }
+    
+    function changeProfile() {
+        $('#image').click();
+    }
+	
+    </script>
+	
 </body>
 </html>
