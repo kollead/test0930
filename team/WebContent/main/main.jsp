@@ -280,7 +280,7 @@
 							<!-- 중간 -->
 							<div class="col-lg-6">
 								<!-- 글 작성 -->
-								<jsp:include page="../board/write2.jsp" />
+								<jsp:include page="../board/write.jsp" />
 								<!-- /글 작성 -->
 
 								<!-- 뉴스피드 -->

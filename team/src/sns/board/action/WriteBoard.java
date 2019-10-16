@@ -42,6 +42,7 @@ public class WriteBoard extends HttpServlet {
 		Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
 	    String fileName = UUID.randomUUID().toString()+filePart.getSubmittedFileName();
 	    // MSIE fix.
+	    System.out.println(fileName+" "+uploadFilePath);
 	    filePart.write(uploadFilePath+ File.separator +fileName);
 		
 	}
