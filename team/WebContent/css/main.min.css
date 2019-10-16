@@ -3169,7 +3169,7 @@ keyframes fa-spin { 0%{
 }
 
 .ti-heart:before {
-	content: "\e634"
+	content: "\e634";
 }
 
 .ti-heart-broken:before {

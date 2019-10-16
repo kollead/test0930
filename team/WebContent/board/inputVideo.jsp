@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <script src="../js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-$(function() {
+ function preview_video () {
     var video = $("video");
     var thumbnail = $("canvas");
     var input = $("#vidInput");
@@ -15,8 +15,8 @@ $(function() {
     var duration = 0;
     var img = $("img");
 
-    $("#vidInput").on("change", function(e) {
-        var file = e.target.files[0];
+    
+        var file = event.target.files[0];
         if (["video/mp4"].indexOf(file.type) === -1) {
             alert("Only 'MP4' video format allowed.");
             return;
@@ -39,20 +39,37 @@ $(function() {
                 img.attr('width', 100).attr('height', 100).attr("src", thumbnail[0].toDataURL());
             });
         });
-    });
-});
+    
+}
+/*  
+ function uploadFile() {
+     $('#upload-form').ajaxForm({
+    	 url: "./InputForm",
+         success: function(msg) {
+             alert("File has been uploaded successfully");
+         },
+         error: function(msg) {
+             $("#upload-error").text("Couldn't upload file");
+         }
+     });
+ }  */
 </script>
 </head>
 <body>
+<form id="upload-form" class="upload-box" action="./InputForm" method="post" enctype="multipart/form-data">
+<input type="file" name="file" id="vidInput" accept="video/mp4" onchange="preview_video();"/>
 
-<input type="file" id="vidInput" accept="video/mp4" />
+<input type="submit" id="upload-button" value="upload"/>
+</form>
 <video style="display: none;" controls>
     <source type="video/mp4" >
 </video>
 <canvas style="display: none;"></canvas>
 <br>
 <img/>
-
-
+<br>
+<video width="300" controls>
+	<source src="../vid/856118f4-44de-42c5-b30d-d317ffa32c13video3.MP4" type="video/mp4">
+</video>
 </body>
 </html>
