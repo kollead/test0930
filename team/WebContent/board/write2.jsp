@@ -99,7 +99,7 @@
 
         
             var file = event.target.files[0];
-            sel_video= file;
+            sel_video=file;
             alert("sel: "+URL.createObjectURL(sel_video));
             
             if (["video/mp4"].indexOf(file.type) === -1) {
