@@ -38,7 +38,7 @@
 			</figure>
 			
 			<div class="newpst-input">
-				<form action="./WriteBoard" method="post" method="post" enctype="multipart/form-data">
+				<form id="mediaForm" action="" method="post" method="post" enctype="multipart/form-data">
 					
 					<textarea rows="2" placeholder="무슨 일이 일어나고 있나요?" id="content"></textarea>
 					<div id="image_preview">
@@ -133,6 +133,8 @@
   
   //video preview
     function preview_video () {
+	  
+    	document.getElementById('mediaForm').action = './WriteBoard';
         var video = $("video");
         var thumbnail = $("canvas");
         var input = $("#vidInput");

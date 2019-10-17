@@ -77,7 +77,7 @@
         }
         data.append("content", $("#content").val());
         data.append("imgCnt", sel_files.length);
-        data.append("video", sel_video);
+        data.append("video", document.getElementByID("vidInput").files[0]);
         
         var xhr = new XMLHttpRequest();
         xhr.open("POST","./BoardInsertServlet");
@@ -99,7 +99,7 @@
 
         
             var file = event.target.files[0];
-            sel_video=file;
+            sel_video=event.target.files[0];
             alert("sel: "+URL.createObjectURL(sel_video));
             
             if (["video/mp4"].indexOf(file.type) === -1) {
