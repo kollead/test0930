@@ -37,6 +37,16 @@
     <servlet-name>WriteBoard</servlet-name>
     <url-pattern>/WriteBoard</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>CommentInsertServlet</servlet-name>
+    <servlet-class>sns.board.action.CommentInsertServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommentInsertServlet</servlet-name>
+    <url-pattern>/CommentInsertServlet</url-pattern>
+  </servlet-mapping>
+  
   <resource-ref>
     <description>SnsProject</description>
     <res-ref-name>jdbc/SnsProject</res-ref-name>

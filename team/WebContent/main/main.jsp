@@ -17,6 +17,40 @@
 <link rel="stylesheet" href="./css/color.css">
 <link rel="stylesheet" href="./css/responsive.css">
 
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script> 
+<script type="text/javascript">
+
+function commInsert(){//script.js의 Post a Comment 수정
+	alert("commButton");
+	var content=$("#commText").val();
+	var bNum=1/* $().attr(숨겨진 input의 bName).val(); */	
+	var parent = $(".showmore").parent("li");
+	var comment_HTML;
+	alert(content);
+	if(content!=null){//json 가져와 댓글 번호/댓글 시간/댓글쓴이 모두 뿌리기 
+		$.ajax({
+			url:"./CommentInsertServlet",
+			type: "POST",
+			data: {content:content, bNum:bNum},
+			dataType: "text",
+			success: function(data){				
+				comment_HTML = '	<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li>';
+				$(comment_HTML).insertBefore(parent);
+				$(".post-comt-box textarea").val('');
+			},
+			error: function(data){
+				alert("error");
+			}
+		});			
+		
+	}
+			
+	
+
+}
+
+</script>
+
 </head>
 <body>
 	<!--<div class="se-pre-con"></div>-->
@@ -402,12 +436,19 @@
 															<img src="./images/resources/comet-1.jpg" alt="">
 														</div>
 														<div class="we-comment">
-															<div class="coment-head">
+															<div class="coment-head more">
 																<h5>
 																	<a href="time-line.html" title="">Jason borne</a>
 																</h5>
 																<span>1 year ago</span>
 																<a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+																<span class="more-optns" style="float:right;">
+																	<i class="ti-more-alt"></i>
+																	<ul  position:absolute; top: 100%;">
+																	 <li  width:30px; text-align:center;">수정</li>
+																	 <li>삭제</li>
+																	</ul>
+																</span>
 															</div>
 															<p>
 																we are working for the dance and sing songs. this
@@ -486,9 +527,9 @@
 														<!-- 답글 작성란 -->
 														<div class="post-comt-box">
 															<form method="post">
-																<textarea placeholder="Post your comment"></textarea>
-																<button type="submit"></button>
-															</form>
+																<textarea id="commText" placeholder="Post your comment"></textarea>																										
+																<button id="formButton" type="button" onclick="javascript:commInsert();" style="margin-bottom:5px; margin-right:5px;">게시</button>																
+															</form>															
 														</div>
 														<!-- /답글 작성란 -->
 													</li>
@@ -666,7 +707,7 @@
 																	<i class="em em-rage"></i>
 																	<i class="em em-stuck_out_tongue"></i>
 																</div>
-																<button type="submit"></button>
+																<button id="formButton" type="submit"></button>
 															</form>
 														</div>
 													</li>
@@ -844,7 +885,7 @@
 																	<i class="em em-rage"></i>
 																	<i class="em em-stuck_out_tongue"></i>
 																</div>
-																<button type="submit"></button>
+																<button type="submit" value="submit"></button>
 															</form>
 														</div>
 													</li>
