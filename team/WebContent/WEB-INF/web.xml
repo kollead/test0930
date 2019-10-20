@@ -47,6 +47,24 @@
     <url-pattern>/CommentInsertServlet</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>CommentReadServlet</servlet-name>
+    <servlet-class>sns.board.action.CommentReadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommentReadServlet</servlet-name>
+    <url-pattern>/CommentReadServlet</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>CommentLengthServlet</servlet-name>
+    <servlet-class>sns.board.action.CommentLengthServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommentLengthServlet</servlet-name>
+    <url-pattern>/CommentLengthServlet</url-pattern>
+  </servlet-mapping>
+  
   <resource-ref>
     <description>SnsProject</description>
     <res-ref-name>jdbc/SnsProject</res-ref-name>

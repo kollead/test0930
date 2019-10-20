@@ -19,12 +19,64 @@
 
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script> 
 <script type="text/javascript">
+$(document).ready(function(){
+//function commRead(){
+	//댓글 로드
+	//포스트가 로드될 때 마다 불러오기?->function으로 바꾸어서 포스트 로드하는 펑션에 넣어주기
+	var bNum=1/* $().attr(숨겨진 input의 bName).val(); 혹은 commRead(bNum) */
+	alert("pageLoading");
+	var comment_HTML;
+	/* var commLengthNum=commLength(bNum);
+	alert("docReady commLength= "+commLengthNum); */
+	$.ajax({
+		url:"./CommentReadServlet",
+		type: "POST",
+		data: {bNum:bNum},
+		dataType: "json",
+		success: function(data){	
+			alert("success");
+			if(data.length>0){
+				for(var i = 0; i < data.length; i++){
+					alert(i);
+					alert(data[i].c_content);
+					if(commLengthNum-5>0){
+							commLengthNum=commLengthNum-5;
+							comment_HTML='<li><a href="#" title="" class="showmore underline">more comments</a></li>'
+						}
+					comment_HTML += '	<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data[i].lastName+' '+data[i].firstName+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+data[i].c_content+'</p></div></li>';
+					$(".we-comet").prepend(comment_HTML);
+				}
+			}
+		},
+		error: function(data){
+			alert("error");
+		}
+	});
+//}
+});
+
+function commLength(bNum){
+	var lnum;
+	$.ajax({
+		url:"./CommentLengthServlet",
+		type: "POST",
+		data: {bNum:bNum},
+		dataType: "text",
+		success: function(data){	
+			alert("data "+data)
+			lnum=data;			
+		},
+		error: function(data){
+			alert("error");
+		}
+	});
+	return lnum;
+}
 
 function commInsert(){//script.js의 Post a Comment 수정
 	alert("commButton");
 	var content=$("#commText").val();
 	var bNum=1/* $().attr(숨겨진 input의 bName).val(); */	
-	var parent = $(".showmore").parent("li");
 	var comment_HTML;
 	alert(content);
 	if(content!=null){//json 가져와 댓글 번호/댓글 시간/댓글쓴이 모두 뿌리기 
@@ -35,18 +87,18 @@ function commInsert(){//script.js의 Post a Comment 수정
 			dataType: "text",
 			success: function(data){				
 				comment_HTML = '	<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li>';
-				$(comment_HTML).insertBefore(parent);
+				$(".post-comment").prepend(comment_HTML);
 				$(".post-comt-box textarea").val('');
 			},
 			error: function(data){
 				alert("error");
 			}
 		});			
-		
 	}
-			
-	
+}
 
+function reCommInsert(){
+	//대댓글
 }
 
 </script>
@@ -431,94 +483,14 @@ function commInsert(){//script.js의 Post a Comment 수정
 											<!-- 댓글 -->
 											<div class="coment-area">
 												<ul class="we-comet">
-													<li>
-														<div class="comet-avatar">
-															<img src="./images/resources/comet-1.jpg" alt="">
-														</div>
-														<div class="we-comment">
-															<div class="coment-head more">
-																<h5>
-																	<a href="time-line.html" title="">Jason borne</a>
-																</h5>
-																<span>1 year ago</span>
-																<a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-																<span class="more-optns" style="float:right;">
-																	<i class="ti-more-alt"></i>
-																	<ul  position:absolute; top: 100%;">
-																	 <li  width:30px; text-align:center;">수정</li>
-																	 <li>삭제</li>
-																	</ul>
-																</span>
-															</div>
-															<p>
-																we are working for the dance and sing songs. this
-																car is very awesome for the youngster. please vote this
-																car and like our post
-															</p>
-														</div>
-														<ul>
-															<li>
-																<div class="comet-avatar">
-																	<img src="./images/resources/comet-2.jpg" alt="">
-																</div>
-																<div class="we-comment">
-																	<div class="coment-head">
-																		<h5>
-																			<a href="time-line.html" title="">alexendra dadrio</a>
-																		</h5>
-																		<span>1 month ago</span>
-																		<a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-																	</div>
-																	<p>
-																		yes, really very awesome car i see the features of
-																		this car in the official website of
-																		<a href="#" title="">#Mercedes-Benz</a> and really impressed :-)
-																	</p>
-																</div>
-															</li>
-															<li>
-																<div class="comet-avatar">
-																	<img src="./images/resources/comet-3.jpg" alt="">
-																</div>
-																<div class="we-comment">
-																	<div class="coment-head">
-																		<h5>
-																			<a href="time-line.html" title="">Olivia</a>
-																		</h5>
-																		<span>16 days ago</span>
-																		<a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-																	</div>
-																	<p>
-																		i like lexus cars, lexus cars are most beautiful
-																		with the awesome features, but this car is really
-																		outstanding than lexus
-																	</p>
-																</div>
-															</li>
-														</ul>
-													</li>
-													<li>
-														<div class="comet-avatar">
-															<img src="./images/resources/comet-4.jpg" alt="">
-														</div>
-														<div class="we-comment">
-															<div class="coment-head">
-																<h5>
-																	<a href="time-line.html" title="">Donald Trump</a>
-																</h5>
-																<span>1 week ago</span>
-																<a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-															</div>
-															<p>
-																we are working for the dance and sing songs. this video
-																is very awesome for the youngster. please vote this
-																video and like our channel <i class="em em-smiley"></i>
-															</p>
-														</div>
-													</li>
-													<li>
+													
+													
+																										
+													
+													
+													<!-- <li>
 														<a href="#" title="" class="showmore underline">more comments</a>
-													</li>
+													</li> -->
 													<li class="post-comment">
 														<div class="comet-avatar">
 															<img src="./images/resources/comet-1.jpg" alt="">
