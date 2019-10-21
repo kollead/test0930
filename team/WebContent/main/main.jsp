@@ -52,7 +52,7 @@ function commLoad(){//코멘트를 로딩하는 펑션. post를 로딩할 때 co
 			
 				for(var i = 0; i < data.length; i++){
 					alert(i);					
-					comment_HTML = '<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data[i].lastName+' '+data[i].firstName+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+data[i].c_content+'</p></div></li>';
+					comment_HTML = '<li><input type="hidden" id="commNum" value="'+data[i].c_num+'"><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data[i].lastName+' '+data[i].firstName+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+data[i].c_content+'</p></div></li>';
 					$(".we-comet").prepend(comment_HTML);					
 				}
 			
@@ -79,7 +79,7 @@ function commLoad(){//코멘트를 로딩하는 펑션. post를 로딩할 때 co
 			alert(+getNum+1);//11???>getNum이 String으로 인식되므로 앞에 +를 붙여주면 된다 
 			alert(5*(+getNum+1))//55
 			if((lengthNum-(5*(+getNum+1)))>0){
-				comment_HTML='<li id="showMoreLi"><a href="javascript:commLoad();" title="" class="showmore underline">more comments</a><input type="hidden" value="'+(+getNum+1)+'" id="showMoreNum"</li>'
+				comment_HTML='<li id="showMoreLi"><a href="javascript:commLoad();" title="" class="showmore underline">more comments</a><input type="hidden" value="'+(+getNum+1)+'" id="showMoreNum"></li>'
 				$(".we-comet").prepend(comment_HTML);				
 			}
 		},
