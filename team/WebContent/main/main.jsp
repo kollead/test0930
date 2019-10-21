@@ -20,64 +20,83 @@
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script> 
 <script type="text/javascript">
 $(document).ready(function(){
-//function commRead(){
+
 	//댓글 로드
-	//포스트가 로드될 때 마다 불러오기?->function으로 바꾸어서 포스트 로드하는 펑션에 넣어주기
-	var bNum=1/* $().attr(숨겨진 input의 bName).val(); 혹은 commRead(bNum) */
-	alert("pageLoading");
+	commLoad();	
+
+});
+
+function commLoad(){//코멘트를 로딩하는 펑션. post를 로딩할 때 commLoad()달아주시면 됩니다!
+		
+	//commentDTO에 firstName,lastName 추가 
+	
+	var bNum=1/* $().attr(post의 숨겨진 input의 bName).val();  */
 	var comment_HTML;
-	/* var commLengthNum=commLength(bNum);
-	alert("docReady commLength= "+commLengthNum); */
+	var getNum;	
+	
+	if($("#showMoreNum").val()!=null){
+		getNum=$("#showMoreNum").val();
+	}else{
+		getNum=0;
+	}
+	alert("loadMore getNum: "+getNum);
+	
+	//기본 post comm 로딩(5개)
 	$.ajax({
 		url:"./CommentReadServlet",
+		type: "POST",
+		data: {bNum:bNum, getNum:getNum},
+		dataType: "json",
+		success: function(data){	
+			alert("success");
+			
+				for(var i = 0; i < data.length; i++){
+					alert(i);					
+					comment_HTML = '<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data[i].lastName+' '+data[i].firstName+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+data[i].c_content+'</p></div></li>';
+					$(".we-comet").prepend(comment_HTML);					
+				}
+			
+		},
+		error: function(data){
+			alert("error");
+		}
+	});
+		
+	$("#showMoreLi").remove();
+	alert("remove!!!");	
+	
+	//추가 로딩이 필요할 때
+	$.ajax({
+		url:"./CommentLengthServlet",
 		type: "POST",
 		data: {bNum:bNum},
 		dataType: "json",
 		success: function(data){	
 			alert("success");
-			if(data.length>0){
-				for(var i = 0; i < data.length; i++){
-					alert(i);
-					alert(data[i].c_content);
-					if(commLengthNum-5>0){
-							commLengthNum=commLengthNum-5;
-							comment_HTML='<li><a href="#" title="" class="showmore underline">more comments</a></li>'
-						}
-					comment_HTML += '	<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data[i].lastName+' '+data[i].firstName+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+data[i].c_content+'</p></div></li>';
-					$(".we-comet").prepend(comment_HTML);
-				}
+			var lengthNum=data.number;
+			alert(lengthNum);
+			alert("loadMore getNum: "+getNum);//getNum=1
+			alert(+getNum+1);//11???>getNum이 String으로 인식되므로 앞에 +를 붙여주면 된다 
+			alert(5*(+getNum+1))//55
+			if((lengthNum-(5*(+getNum+1)))>0){
+				comment_HTML='<li id="showMoreLi"><a href="javascript:commLoad();" title="" class="showmore underline">more comments</a><input type="hidden" value="'+(+getNum+1)+'" id="showMoreNum"</li>'
+				$(".we-comet").prepend(comment_HTML);				
 			}
 		},
 		error: function(data){
 			alert("error");
 		}
 	});
-//}
-});
-
-function commLength(bNum){
-	var lnum;
-	$.ajax({
-		url:"./CommentLengthServlet",
-		type: "POST",
-		data: {bNum:bNum},
-		dataType: "text",
-		success: function(data){	
-			alert("data "+data)
-			lnum=data;			
-		},
-		error: function(data){
-			alert("error");
-		}
-	});
-	return lnum;
+		
+		
 }
+
 
 function commInsert(){//script.js의 Post a Comment 수정
 	alert("commButton");
 	var content=$("#commText").val();
 	var bNum=1/* $().attr(숨겨진 input의 bName).val(); */	
-	var comment_HTML;
+	var newComment_HTML;
 	alert(content);
 	if(content!=null){//json 가져와 댓글 번호/댓글 시간/댓글쓴이 모두 뿌리기 
 		$.ajax({
@@ -85,9 +104,10 @@ function commInsert(){//script.js의 Post a Comment 수정
 			type: "POST",
 			data: {content:content, bNum:bNum},
 			dataType: "text",
-			success: function(data){				
-				comment_HTML = '	<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li>';
-				$(".post-comment").prepend(comment_HTML);
+			success: function(data){
+				alert("success");
+				newComment_HTML = '<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li>';
+				$(newComment_HTML).prependTo("#newCommt");//<li class="post-comment"> 위에 새 div인 newCommt를 추가했습니다
 				$(".post-comt-box textarea").val('');
 			},
 			error: function(data){
@@ -483,24 +503,20 @@ function reCommInsert(){
 											<!-- 댓글 -->
 											<div class="coment-area">
 												<ul class="we-comet">
-													
-													
-																										
-													
-													
-													<!-- <li>
-														<a href="#" title="" class="showmore underline">more comments</a>
-													</li> -->
-													<li class="post-comment">
-														<div class="comet-avatar">
-															<img src="./images/resources/comet-1.jpg" alt="">
-														</div>
+												
+												
+												
 														
+												<div id="newCommt"></div>
+												<li class="post-comment">
+													<div class="comet-avatar">
+														<img src="./images/resources/comet-1.jpg" alt="">
+														</div>														
 														<!-- 답글 작성란 -->
 														<div class="post-comt-box">
 															<form method="post">
 																<textarea id="commText" placeholder="Post your comment"></textarea>																										
-																<button id="formButton" type="button" onclick="javascript:commInsert();" style="margin-bottom:5px; margin-right:5px;">게시</button>																
+																<button id="formButton" type="button" onclick="javascript:commInsert();" style="float: right; margin-bottom:5px; margin-right:5px;">게시</button>																
 															</form>															
 														</div>
 														<!-- /답글 작성란 -->

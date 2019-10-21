@@ -74,17 +74,19 @@ public class CommentDAO {
 				
 	}
 	
-	public ArrayList<CommentDTO> commentRead(int bNum) {
+	public ArrayList<CommentDTO> commentRead(int bNum,int num) {
 		ArrayList<CommentDTO> arr=new ArrayList<CommentDTO>();
 		
 		try {
 			con=getCon();
-			sql="select * from comment  where b_num=? order by c_num desc, re_seq asc";
+			sql="select * from comment  where b_num=? order by c_num desc, re_seq asc limit ?,5";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setInt(1, bNum);
+			pstmt.setInt(2, num);			
 			rs=pstmt.executeQuery();
 			while(rs.next()){
 				CommentDTO cdto=new CommentDTO();
+				cdto.setC_num(rs.getInt("c_num"));
 				cdto.setC_content(rs.getString("c_content"));
 				cdto.setC_date(rs.getTimestamp("c_date"));
 				cdto.setEmail(rs.getString("email"));
