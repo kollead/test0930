@@ -8,10 +8,12 @@ public class CommentDTO {
 	private String email;
 	private int b_num;
 	private String c_content;
-	private int re_sequence;
+	private int re_seq;
 	private Timestamp c_date;
 	private String firstName;
 	private String lastName;
+	private int re_ref;
+	private int re_lev;
 	
 	
 	public String getFirstName() {
@@ -50,17 +52,29 @@ public class CommentDTO {
 	public void setC_content(String c_content) {
 		this.c_content = c_content;
 	}
-	public int getRe_sequence() {
-		return re_sequence;
+	public int getRe_seq() {
+		return re_seq;
 	}
-	public void setRe_sequence(int re_sequence) {
-		this.re_sequence = re_sequence;
+	public void setRe_seq(int re_seq) {
+		this.re_seq = re_seq;
 	}
 	public Timestamp getC_date() {
 		return c_date;
 	}
 	public void setC_date(Timestamp c_date) {
 		this.c_date = c_date;
+	}
+	public int getRe_ref() {
+		return re_ref;
+	}
+	public void setRe_ref(int re_ref) {
+		this.re_ref = re_ref;
+	}
+	public int getRe_lev() {
+		return re_lev;
+	}
+	public void setRe_lev(int re_lev) {
+		this.re_lev = re_lev;
 	}
 
 }

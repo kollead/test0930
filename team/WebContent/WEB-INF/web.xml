@@ -37,7 +37,6 @@
     <servlet-name>WriteBoard</servlet-name>
     <url-pattern>/WriteBoard</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>CommentInsertServlet</servlet-name>
     <servlet-class>sns.board.action.CommentInsertServlet</servlet-class>
@@ -46,7 +45,6 @@
     <servlet-name>CommentInsertServlet</servlet-name>
     <url-pattern>/CommentInsertServlet</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>CommentReadServlet</servlet-name>
     <servlet-class>sns.board.action.CommentReadServlet</servlet-class>
@@ -55,8 +53,7 @@
     <servlet-name>CommentReadServlet</servlet-name>
     <url-pattern>/CommentReadServlet</url-pattern>
   </servlet-mapping>
-  
-   <servlet>
+  <servlet>
     <servlet-name>CommentLengthServlet</servlet-name>
     <servlet-class>sns.board.action.CommentLengthServlet</servlet-class>
   </servlet>
@@ -64,6 +61,16 @@
     <servlet-name>CommentLengthServlet</servlet-name>
     <url-pattern>/CommentLengthServlet</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>CommentReInsertServlet</servlet-name>
+    <servlet-class>sns.board.action.CommentReInsertServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommentReInsertServlet</servlet-name>
+    <url-pattern>/CommentReInsertServlet</url-pattern>
+  </servlet-mapping>
+  
   
   <resource-ref>
     <description>SnsProject</description>
