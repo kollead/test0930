@@ -50,11 +50,21 @@ function commLoad(){//코멘트를 로딩하는 펑션. post를 로딩할 때 co
 			
 				for(var i = 0; i < data.length; i++){						
 					
-					comment_HTML = '<li'
-					if(data[i].re_lev>0){
-						comment_HTML +=' style="margin-left:'+(+data[i].re_lev*3)+'%;"';
-					}
+					
+					if(+data[i].re_lev>0){
+						comment_HTML ='<ul><li style="margin-left:'+(+data[i].re_lev*3)+'%;"';
+					}else{
+					comment_HTML = '<li';}
+					
 					comment_HTML +='><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data[i].lastName+' '+data[i].firstName+'</a></h5><span>'+data[i].c_date+'</span><a class="we-reply" href="javascript:toggleReply('+data[i].c_num+');" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+data[i].c_content+'</p></div></li><div id="replyDiv'+data[i].c_num+'"></div>';
+					//.we-comet p {
+					//word-break: break-all;
+					//} style.css
+					
+					if(data[i].re_lev>0){
+						comment_HTML +='</ul>';
+					}
+					
 					comment_HTML +='<li class="post-comment post-reComment'+data[i].c_num+'" style="display:none; margin-left: 3%;"><div class="comet-avatar"><img src="./images/resources/comet-1.jpg" alt=""></div><div class="post-comt-box"><form method="post"><textarea id="reCommText'+data[i].c_num+'" placeholder="Post your comment"></textarea><button id="formButton" type="button" onclick="javascript:commReInsert('+data[i].c_num+');" style="float: right; margin-bottom:5px; margin-right:5px;">게시</button></form></div></li>';
 										
 					$(".we-comet").prepend(comment_HTML);					
@@ -109,7 +119,7 @@ function commInsert(){//script.js의 Post a Comment 수정
 			dataType: "text",
 			success: function(data){
 				alert("success");
-				newComment_HTML = '<li style="margin-left: 3%;"><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li>';
+				newComment_HTML = '<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li>';
 				$(newComment_HTML).prependTo("#newCommt");//<li class="post-comment"> 위에 새 div인 newCommt를 추가했습니다
 				$(".post-comt-box textarea").val('');
 			},

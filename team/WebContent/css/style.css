@@ -1796,6 +1796,7 @@ for some reason nth-child(1) is always busy and elements starting from 2 */
     display: inline-block;
     margin-top: 10px;
     width: 100%;
+        
 }
 
 .we-comet {
@@ -1808,7 +1809,12 @@ for some reason nth-child(1) is always busy and elements starting from 2 */
 .we-comet > li {
     display: inline-block;
     margin-bottom: 20px;
+    margin-right: 3%;
     width: 100%;
+}
+
+.we-comet p {
+	word-break: break-all;
 }
 
 .we-comet > li:last-child {
@@ -1858,15 +1864,16 @@ for some reason nth-child(1) is always busy and elements starting from 2 */
     content: '';
 }
 
-.we-comet > li ul {
-    margin-left: 55px;
-    margin-top: 20px;
+.we-comet  ul {
     padding-left: 0;
     list-style: none;
+    width:100%;
 }
 
-.we-comet > li ul li {
+
+.we-comet ul li {
     margin-bottom: 20px;
+    width:100%;
 }
 
 .we-comet li a.showmore {
@@ -1896,7 +1903,7 @@ for some reason nth-child(1) is always busy and elements starting from 2 */
     color: #2a2a2a;
 }
 
-.we-comment > p {
+.we-comment > pre {
     font-size: 13px;
     line-height: 20px;
     margin-bottom: 0;
