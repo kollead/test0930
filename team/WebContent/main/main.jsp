@@ -72,7 +72,7 @@ function commLoad(){//코멘트를 로딩하는 펑션. post를 로딩할 때 co
 			
 		},
 		error: function(data){
-			alert("error");
+				alert("error");
 		}
 	});
 			
@@ -119,9 +119,11 @@ function commInsert(){//script.js의 Post a Comment 수정
 			dataType: "text",
 			success: function(data){
 				alert("success");
-				newComment_HTML = '<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li>';
+				/* newComment_HTML = '<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li>';
 				$(newComment_HTML).prependTo("#newCommt");//<li class="post-comment"> 위에 새 div인 newCommt를 추가했습니다
-				$(".post-comt-box textarea").val('');
+				 */
+				 reloadComm();
+				 $(".post-comt-box textarea").val('');
 			},
 			error: function(data){
 				alert("error");
@@ -168,6 +170,22 @@ function commReInsert(data){//reply 창 내용물 입력하기
 	}
 			
 	toggleReply(c_num);
+	
+}
+
+function reloadComm(){	
+
+	$("#showMoreNum").val(null);
+	//$("#commarea1").load(window.location.href + "#commarea1");
+	$('#commarea1').load(document.URL +  ' #commarea1');
+	//commLoad();
+	
+}
+
+
+function commentDelete(){
+	
+	
 	
 }
 
@@ -591,7 +609,7 @@ function commReInsert(data){//reply 창 내용물 입력하기
 											</div>
 
 											<!-- 댓글 -->
-											<div class="coment-area">
+											<div class="coment-area" id="commarea1"><!-- boardNum 달아줘야 -->
 												<ul class="we-comet">
 												
 												
