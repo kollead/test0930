@@ -1821,6 +1821,25 @@ for some reason nth-child(1) is always busy and elements starting from 2 */
     margin-bottom: 0;
 }
 
+.we-comet .more {
+	float: right;
+	box-sizing: border-box;
+}
+
+.we-comet .more ul{
+	width: 50px;
+	height: 50px;
+}
+
+.we-comet .more ul li{
+	display: inline-block;
+    font-size: 11px;
+    line-height: 5px;
+    width: 100%;
+}
+
+
+
 .comet-avatar {
     display: table-cell;
     max-width: 7.6%;

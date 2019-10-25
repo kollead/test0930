@@ -27,10 +27,20 @@ $(document).ready(function(){
 });
 
 function commLoad(){//코멘트를 로딩하는 펑션. post를 로딩할 때 commLoad() / commLoad(b_num)달아주시면 됩니다!
+	
+	//수정 삭제 본인에게만 보이도록 
 			
 	var bNum=1/* $().attr(post의 숨겨진 input의 bName).val();/data  */
 	var comment_HTML;
 	var getNum;	
+	var role;//email 세션값 
+	
+	
+	if($("#role").val()!=null){//email 세션 
+		role=$("#role").val();
+	}else{role="";}
+	alert(role);
+	
 	
 	if($("#showMoreNum").val()!=null){
 		getNum=$("#showMoreNum").val();
@@ -56,10 +66,34 @@ function commLoad(){//코멘트를 로딩하는 펑션. post를 로딩할 때 co
 					}else{
 					comment_HTML = '<li';}
 					
-					comment_HTML +='><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data[i].lastName+' '+data[i].firstName+'</a></h5><span>'+data[i].c_date+'</span><a class="we-reply" href="javascript:toggleReply('+data[i].c_num+');" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+data[i].c_content+'</p></div></li><div id="replyDiv'+data[i].c_num+'"></div>';
+					comment_HTML +='><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data[i].lastName+' '+data[i].firstName+'</a></h5><span>'+data[i].c_date+'</span><a class="we-reply" href="javascript:toggleReply('+data[i].c_num+');" title="Reply"><i class="fa fa-reply"></i></a>';
+					
+					if(role==data[i].email){
+						comment_HTML+='<div class="more"><span class="more-optns"><i class="ti-more-alt"></i><ul><li onclick="commUpdate('+data[i].c_num+')"> 수정 </li><li onclick="commDelete('+data[i].c_num+')"> 삭제 </li></ul></span></div></div>';
+					}
+					
+					comment_HTML +='<p>'+data[i].c_content+'</p></div></li><div id="replyDiv'+data[i].c_num+'"></div>';
 					//.we-comet p {
 					//word-break: break-all;
 					//} style.css
+					
+					/* .we-comet .more {
+						float: right;
+						box-sizing: border-box;
+					}
+					
+					.we-comet .more ul{
+						width: 50px;
+						height: 50px;
+					}
+					
+					.we-comet .more ul li{
+						display: inline-block;
+					    font-size: 11px;
+					    line-height: 5px;
+					    width: 100%;
+					} */
+					
 					
 					if(data[i].re_lev>0){
 						comment_HTML +='</ul>';
@@ -119,12 +153,11 @@ function commInsert(){//script.js의 Post a Comment 수정
 			dataType: "text",
 			success: function(data){
 				alert("success");
-				/* newComment_HTML = '<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li>';
+				newComment_HTML = '<ul><li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li></ul>';
 				$(newComment_HTML).prependTo("#newCommt");//<li class="post-comment"> 위에 새 div인 newCommt를 추가했습니다
-				 */
-				 reloadComm();
+				
 				 $(".post-comt-box textarea").val('');
-			},
+			}, 
 			error: function(data){
 				alert("error");
 			}
@@ -141,7 +174,7 @@ function toggleReply(data){//reply 창
 	
 }
 
-function commReInsert(data){//reply 창 내용물 입력하기 
+function commReInsert(data){//reply 창 내용물 입력하기  //reInsert 대댓글 텍스트 아레아  안 밀리게 
 		
 	alert("commButton");
 	var c_num=data;
@@ -159,7 +192,7 @@ function commReInsert(data){//reply 창 내용물 입력하기
 			dataType: "text",
 			success: function(data){
 				alert("success");
-				 newComment_HTML = '<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li><div></div>';
+				 newComment_HTML = '<ul><li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li><div></div></ul>';
 				$(newComment_HTML).prependTo("#replyDiv"+c_num);//div id="replyDiv'+data[i].c_num+'"
 				$("#reCommText"+c_num).val('');
 			},
@@ -178,14 +211,20 @@ function reloadComm(){
 	$("#showMoreNum").val(null);
 	//$("#commarea1").load(window.location.href + "#commarea1");
 	$('#commarea1').load(document.URL +  ' #commarea1');
+	commLoad();
 	//commLoad();
 	
 }
 
 
-function commentDelete(){
+function commDelete(data){
 	
-	
+	alert("c_num: "+data);
+	$.ajax({
+		
+		
+		
+	});
 	
 }
 
@@ -233,6 +272,12 @@ function commentDelete(){
 
 </head>
 <body>
+
+	<% String email="";
+	if(request.getSession().getAttribute("email").toString()!=null){
+		email=request.getSession().getAttribute("email").toString();}%>
+	<input type="hidden" id="role" value=<%=email %> />
+
 	<!--<div class="se-pre-con"></div>-->
 	<div class="theme-layout">
 		<div class="postoverlay"></div>
