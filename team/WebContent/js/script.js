@@ -314,12 +314,12 @@ $(function() {
 	}
 	
 /** Post a Comment **/
-jQuery(".post-comt-box textarea").on("keydown", function(event) {
+/*jQuery(".post-comt-box textarea").on("keydown", function(event) {
 
 	if (event.keyCode == 13) {
 		return false;		
 	}	
-}); 
+}); */
 
 	
 //inbox page 	

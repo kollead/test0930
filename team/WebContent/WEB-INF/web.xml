@@ -71,6 +71,24 @@
     <url-pattern>/CommentReInsertServlet</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>CommentDeleteServlet</servlet-name>
+    <servlet-class>sns.board.action.CommentDeleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommentDeleteServlet</servlet-name>
+    <url-pattern>/CommentDeleteServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>CommentUpdateServlet</servlet-name>
+    <servlet-class>sns.board.action.CommentUpdateServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommentUpdateServlet</servlet-name>
+    <url-pattern>/CommentUpdateServlet</url-pattern>
+  </servlet-mapping>
+  
   
   <resource-ref>
     <description>SnsProject</description>

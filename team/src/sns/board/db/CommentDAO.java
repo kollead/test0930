@@ -205,5 +205,38 @@ public class CommentDAO {
 		name=firstName+lastName;
 		return name;
 	}
+	
+	public void commentDelete(int c_num) {
+		
+		try {
+			con=getCon();
+			sql="delete from comment where c_num=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, c_num);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeDB();
+		}
+	}
+	
+	public void commentUpdate(int c_num, String content) {
+		try {
+			con=getCon();
+			sql="update comment set c_content=? where c_num=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, content);
+			pstmt.setInt(2, c_num);
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeDB();
+		}
+	}
 
 }
