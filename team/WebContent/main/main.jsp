@@ -26,8 +26,7 @@ $(document).ready(function(){
 
 });
 
-//.we_comment width 65%인 거 100%로
-
+//jQuery(".post-comt-box textarea").on("keydown", function(event) {scriptjs 삭제
 
 function commLoad(){//코멘트를 로딩하는 펑션. post를 로딩할 때 commLoad() / commLoad(b_num)달아주시면 됩니다!
 	
@@ -264,6 +263,8 @@ function commUpdate(data){
 	});
 	
 }
+	
+
 
 /* function date(data){
 	//날짜 차이 구해주기
