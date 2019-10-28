@@ -1967,7 +1967,13 @@ li.post-comment .comet-avatar {
     font-weight: 400;
     height: 40px;
     line-height: 16px;
+    display: inline-block;
+    max-width: 80%;
 }
+
+
+
+
 
 .add-smiles {
     position: absolute;

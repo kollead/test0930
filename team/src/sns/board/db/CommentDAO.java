@@ -49,13 +49,13 @@ public class CommentDAO {
 			pstmt.setString(1, email);
 			rs=pstmt.executeQuery();
 			if(rs.next()){
-				firstName=rs.getString("firstName");
-				lastName=" "+rs.getString("lastName");
+				firstName=rs.getString("f_name");
+				lastName=rs.getString("l_name");
 			}
 			
 			//>>>>>sql update comment set re_ref=c_num<<<<<
 			
-			sql="insert into comment (email,b_num,c_content,re_seq,firstName,lastName,re_lev) values(?,?,?,?,?,?,?)";
+			sql="insert into comment (email,b_num,c_content,re_seq,f_name,l_name,re_lev) values(?,?,?,?,?,?,?)";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, email);
 			pstmt.setInt(2, bNum);
@@ -72,8 +72,9 @@ public class CommentDAO {
 		}finally{
 			closeDB();
 		}
-		name=firstName+" "+lastName;
+		name=lastName+" "+firstName;
 		return name;
+		//LAST_INSERT_ID() 찾아보기
 				
 	}
 	
@@ -99,8 +100,8 @@ public class CommentDAO {
 				cdto.setC_content(rs.getString("c_content"));
 				cdto.setC_date(rs.getTimestamp("c_date"));
 				cdto.setEmail(rs.getString("email"));
-				cdto.setFirstName(rs.getString("firstName"));
-				cdto.setLastName(rs.getString("lastName"));
+				cdto.setF_name(rs.getString("f_name"));
+				cdto.setL_name(rs.getString("l_name"));
 				cdto.setRe_seq(rs.getInt("re_seq"));
 				cdto.setRe_lev(rs.getInt("re_lev"));
 				arr.add(cdto);
@@ -137,11 +138,13 @@ public class CommentDAO {
 		return num;		
 	}
 	
-	public String commentReInsert(String content, int c_num, String email){
+	public ArrayList commentReInsert(String content, int c_num, String email){
 		//1. 이름가져오기용
 		String firstName="";
 		String lastName="";
 		String name="";
+		int re_lev=0;
+		ArrayList arr=new ArrayList();
 		
 		//2. 가지고 온 c_num으로 대댓글이 달리게 될 댓글의 정보를 조회
 		CommentDTO cdto= new CommentDTO();
@@ -158,8 +161,8 @@ public class CommentDAO {
 			pstmt.setString(1, email);
 			rs=pstmt.executeQuery();
 			if(rs.next()){
-				firstName=rs.getString("firstName");
-				lastName=" "+rs.getString("lastName");
+				firstName=rs.getString("f_name");
+				lastName=rs.getString("l_name");
 			}
 			
 			sql="select * from comment where c_num=?";
@@ -173,6 +176,8 @@ public class CommentDAO {
 				cdto.setRe_lev(rs.getInt("re_lev"));
 			}
 			
+			re_lev=cdto.getRe_lev()+1;
+			
 			//re_ref 같은 그룹,re_seq 기존의 값보다 큰 게 있으면 +1 증가 
 			
 			sql="update comment set re_seq = re_seq+1 where re_ref=? and re_seq>?";
@@ -182,7 +187,7 @@ public class CommentDAO {
 			
 			pstmt.executeUpdate();	
 			
-			sql="insert into comment (email,b_num,c_content,re_seq,firstName,lastName,re_lev,re_ref) values(?,?,?,?,?,?,?,?)";
+			sql="insert into comment (email,b_num,c_content,re_seq,f_name,l_name,re_lev,re_ref) values(?,?,?,?,?,?,?,?)";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, email);
 			pstmt.setInt(2, cdto.getB_num());
@@ -202,8 +207,10 @@ public class CommentDAO {
 			closeDB();
 		}
 		
-		name=firstName+lastName;
-		return name;
+		name=lastName+" "+firstName;
+		arr.add(name);
+		arr.add(re_lev);
+		return arr;
 	}
 	
 	public void commentDelete(int c_num) {

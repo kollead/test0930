@@ -10,23 +10,23 @@ public class CommentDTO {
 	private String c_content;
 	private int re_seq;
 	private Timestamp c_date;
-	private String firstName;
-	private String lastName;
+	private String f_name;
+	private String l_name;
 	private int re_ref;
 	private int re_lev;
 	
 	
-	public String getFirstName() {
-		return firstName;
+	public String getF_name() {
+		return f_name;
 	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setF_name(String f_name) {
+		this.f_name = f_name;
 	}
-	public String getLastName() {
-		return lastName;
+	public String getL_name() {
+		return l_name;
 	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setL_name(String l_name) {
+		this.l_name = l_name;
 	}
 	public int getC_num() {
 		return c_num;

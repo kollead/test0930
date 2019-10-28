@@ -63,11 +63,11 @@ function commLoad(){//코멘트를 로딩하는 펑션. post를 로딩할 때 co
 					
 					
 					if(+data[i].re_lev>0){
-						comment_HTML ='<ul id="commPara'+data[i].c_num+'"><li style="margin-left:'+(+data[i].re_lev*3)+'%;"';
+						comment_HTML ='<ul id="commPara'+data[i].c_num+'"><li style="margin-left:'+(+data[i].re_lev*2)+'%;"';
 					}else{
 					comment_HTML = '<li id="commPara'+data[i].c_num+'"';}
 					
-					comment_HTML +='><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data[i].lastName+' '+data[i].firstName+'</a></h5><span>'+data[i].c_date+'</span><a class="we-reply" href="javascript:toggleReply('+data[i].c_num+');" title="Reply"><i class="fa fa-reply"></i></a>';
+					comment_HTML +='><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data[i].l_name+' '+data[i].f_name+'</a></h5><span>'+data[i].c_date+'</span><a class="we-reply" href="javascript:toggleReply('+data[i].c_num+');" title="Reply"><i class="fa fa-reply"></i></a>';
 					
 					if(role==data[i].email){
 						comment_HTML+='<div class="more"><span class="more-optns"><i class="ti-more-alt"></i><ul><li onclick="toggleUpdate('+data[i].c_num+')"> 수정 </li><li onclick="commDelete('+data[i].c_num+')"> 삭제 </li></ul></span></div></div>';
@@ -139,6 +139,15 @@ function commLoad(){//코멘트를 로딩하는 펑션. post를 로딩할 때 co
 		
 }
 
+function reload(){
+	
+	location.reload();	
+	 //$("#commarea1").load(window.location.href + " #commarea1");
+	//$( "#commarea1" ).load( "ajax/response.html #commarea1" );
+	//$("#commarea1").load("/main/main.jsp");
+	
+}
+
 
 function commInsert(){//script.js의 Post a Comment 수정
 	alert("commButton");
@@ -154,9 +163,10 @@ function commInsert(){//script.js의 Post a Comment 수정
 			dataType: "text",
 			success: function(data){
 				alert("success");
-				newComment_HTML = '<ul><li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li></ul>';
+				/* newComment_HTML = '<ul><li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li></ul>';
 				$(newComment_HTML).prependTo("#newCommt");//<li class="post-comment"> 위에 새 div인 newCommt를 추가했습니다
-				
+				 */
+				reload();
 				 $(".post-comt-box textarea").val('');
 			}, 
 			error: function(data){
@@ -190,12 +200,16 @@ function commReInsert(data){//reply 창 내용물 입력하기  //reInsert 대�
 			url:"./CommentReInsertServlet",
 			type: "POST",
 			data: {content:content, c_num:c_num},
-			dataType: "text",
+			dataType: "json",
 			success: function(data){
 				alert("success");
-				 newComment_HTML = '<ul><li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li><div></div></ul>';
+				var re_lev=data.re_lev;
+				var name=data.name;
+				/*  newComment_HTML = '<ul><li style="margin-left:'+(+re_lev*2)+'%;"><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+name+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li><div></div></ul>';
 				$(newComment_HTML).prependTo("#replyDiv"+c_num);//div id="replyDiv'+data[i].c_num+'"
-				$("#reCommText"+c_num).val('');
+				 */
+				 reload();
+				 $("#reCommText"+c_num).val('');
 			},
 			error: function(data){
 				alert("error");
@@ -711,6 +725,19 @@ function commUpdate(data){
 															</form>															
 														</div>
 														<!-- /답글 작성란 -->
+												<!-- 	.post-comt-box form textarea {
+												    background: #f3f3f3 none repeat scroll 0 0;
+												    border-color: transparent;
+												    border-radius: 3px;
+												    color: #696969;
+												    font-size: 13px;
+												    font-weight: 400;
+												    height: 40px;
+												    line-height: 16px;
+												    display: inline-block;수
+												    max-width: 80%;정
+												} -->
+														
 													</li>
 												</ul>
 											</div>

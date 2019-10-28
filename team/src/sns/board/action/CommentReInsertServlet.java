@@ -1,12 +1,18 @@
 package sns.board.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import sns.board.db.CommentDAO;
 import sns.board.db.CommentDTO;
@@ -24,7 +30,6 @@ public class CommentReInsertServlet extends HttpServlet {
 		System.out.println("ReInsert Post");
 		//content:content, b_num:b_num, c_num:c_num
 		
-		//c_num 만 들고가서... db를 조회하면..,. 되지 않나...........왜이런...어차피...re_ref는....글 조회하면서 만들어 졌으므로... 굳이 다 가져갈필요... X......
 		String content=request.getParameter("content");
 		int c_num=Integer.parseInt(request.getParameter("c_num"));
 		
@@ -34,12 +39,23 @@ public class CommentReInsertServlet extends HttpServlet {
 		
 		
 		CommentDAO cdao=new CommentDAO();
-		String name=cdao.commentReInsert(content, c_num, email);
+		ArrayList arr=cdao.commentReInsert(content, c_num, email);
+				
+		StringBuffer result=new StringBuffer();
 		
-		System.out.println(name);
-		response.setContentType("text/html;charset=utf-8"); 
-		response.setCharacterEncoding("utf-8");
-        response.getWriter().write(name);
+		JsonObject json=new JsonObject();
+		
+		String name=(String)arr.get(0);
+		int re_lev=(int) arr.get(1);
+		json.addProperty("name", name);
+		json.addProperty("re_lev", re_lev);
+								
+		result.append(json);
+		
+		System.out.println("result: "+result.toString());
+		
+		response.setCharacterEncoding("UTF-8");			
+		response.getWriter().write(result.toString());
 		
 	}
 
