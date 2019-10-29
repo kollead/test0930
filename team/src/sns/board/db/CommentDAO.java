@@ -38,10 +38,12 @@ public class CommentDAO {
 	
 	//cdao.commentInsert(bNum,content,email);
 	
-	public String commentInsert(int bNum, String content, String email){
+	public CommentDTO commentInsert(int bNum, String content, String email){
 		String firstName="";
 		String lastName="";
-		String name="";
+		CommentDTO cdto=new CommentDTO();
+		int last_index=0;
+		
 		try {
 			con=getCon();
 			sql="select * from member where email=?";
@@ -55,25 +57,49 @@ public class CommentDAO {
 			
 			//>>>>>sql update comment set re_ref=c_num<<<<<
 			
-			sql="insert into comment (email,b_num,c_content,re_seq,f_name,l_name,re_lev) values(?,?,?,?,?,?,?)";
+			sql="insert into comment (email,b_num,c_content,re_seq,re_lev) values(?,?,?,?,?)";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, email);
 			pstmt.setInt(2, bNum);
 			pstmt.setString(3, content);
 			pstmt.setInt(4, 0);//sequence
-			pstmt.setString(5, firstName);
-			pstmt.setString(6, lastName);
-			pstmt.setInt(7, 0);//level
+			
+			pstmt.setInt(5, 0);//level
 			pstmt.executeUpdate();
 			
+			sql="select last_insert_id()";
+			pstmt=con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			if(rs.next()){
+				
+				last_index=rs.getInt(1);
+				System.out.println("lastInsert: "+last_index);
+			}
+			
+			sql="select c_num,b_num,c_content, c_date, email from comment where c_num=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, last_index);
+			rs=pstmt.executeQuery();
+			if(rs.next()){
+				
+				cdto.setC_num(rs.getInt("c_num"));
+				cdto.setB_num(rs.getInt("b_num"));
+				cdto.setC_content(rs.getString("c_content"));
+				cdto.setC_date(rs.getTimestamp("c_date"));
+				cdto.setEmail(rs.getString("email"));
+				
+								
+			}
+			cdto.setF_name(firstName);
+			cdto.setL_name(lastName);
 			
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}finally{
 			closeDB();
 		}
-		name=lastName+" "+firstName;
-		return name;
+		
+		return cdto;
 		//LAST_INSERT_ID() 찾아보기
 				
 	}
@@ -100,17 +126,26 @@ public class CommentDAO {
 				cdto.setC_content(rs.getString("c_content"));
 				cdto.setC_date(rs.getTimestamp("c_date"));
 				cdto.setEmail(rs.getString("email"));
-				cdto.setF_name(rs.getString("f_name"));
-				cdto.setL_name(rs.getString("l_name"));
+				
 				cdto.setRe_seq(rs.getInt("re_seq"));
 				cdto.setRe_lev(rs.getInt("re_lev"));
+				
+				sql="select f_name, l_name from member where email=?";
+				pstmt=con.prepareStatement(sql);
+				pstmt.setString(1, cdto.getEmail());
+				ResultSet rs2=pstmt.executeQuery();
+				if(rs2.next()){
+					cdto.setF_name(rs2.getString("f_name"));
+					cdto.setL_name(rs2.getString("l_name"));
+				}				
 				arr.add(cdto);
+				rs2.close();
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
-			closeDB();
+			closeDB();			
 		}
 		System.out.println(arr.toString());
 		return arr;
@@ -138,14 +173,12 @@ public class CommentDAO {
 		return num;		
 	}
 	
-	public ArrayList commentReInsert(String content, int c_num, String email){
+	public CommentDTO commentReInsert(String content, int c_num, String email){
 		//1. 이름가져오기용
 		String firstName="";
 		String lastName="";
-		String name="";
-		int re_lev=0;
-		ArrayList arr=new ArrayList();
-		
+		int last_index=0;	
+				
 		//2. 가지고 온 c_num으로 대댓글이 달리게 될 댓글의 정보를 조회
 		CommentDTO cdto= new CommentDTO();
 		
@@ -176,7 +209,7 @@ public class CommentDAO {
 				cdto.setRe_lev(rs.getInt("re_lev"));
 			}
 			
-			re_lev=cdto.getRe_lev()+1;
+			
 			
 			//re_ref 같은 그룹,re_seq 기존의 값보다 큰 게 있으면 +1 증가 
 			
@@ -187,17 +220,42 @@ public class CommentDAO {
 			
 			pstmt.executeUpdate();	
 			
-			sql="insert into comment (email,b_num,c_content,re_seq,f_name,l_name,re_lev,re_ref) values(?,?,?,?,?,?,?,?)";
+			sql="insert into comment (email,b_num,c_content,re_seq,re_lev,re_ref) values(?,?,?,?,?,?)";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, email);
 			pstmt.setInt(2, cdto.getB_num());
 			pstmt.setString(3, content);
 			pstmt.setInt(4, cdto.getRe_seq()+1);//sequence
-			pstmt.setString(5, firstName);
-			pstmt.setString(6, lastName);
-			pstmt.setInt(7, cdto.getRe_lev()+1);//level
-			pstmt.setInt(8, cdto.getRe_ref());//reference
+			
+			pstmt.setInt(5, cdto.getRe_lev()+1);//level
+			pstmt.setInt(6, cdto.getRe_ref());//reference
 			pstmt.executeUpdate();
+			
+			sql="select last_insert_id()";
+			pstmt=con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			if(rs.next()){
+				
+				last_index=rs.getInt(1);
+				System.out.println("lastReInsert: "+last_index);
+			}
+			
+			sql="select * from comment where c_num=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, last_index);
+			rs=pstmt.executeQuery();
+			if(rs.next()){
+				
+				cdto.setC_num(rs.getInt("c_num"));
+				cdto.setB_num(rs.getInt("b_num"));
+				cdto.setC_content(rs.getString("c_content"));
+				cdto.setC_date(rs.getTimestamp("c_date"));
+				cdto.setEmail(rs.getString("email"));
+				cdto.setF_name(firstName);
+				cdto.setL_name(lastName);
+				cdto.setRe_lev(rs.getInt("re_lev"));
+				cdto.setRe_ref(rs.getInt("re_ref"));
+				cdto.setRe_seq(rs.getInt("re_seq"));}				
 			
 			
 		} catch (Exception e) {
@@ -207,10 +265,8 @@ public class CommentDAO {
 			closeDB();
 		}
 		
-		name=lastName+" "+firstName;
-		arr.add(name);
-		arr.add(re_lev);
-		return arr;
+		
+		return cdto;
 	}
 	
 	public void commentDelete(int c_num) {

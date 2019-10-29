@@ -39,16 +39,16 @@ public class CommentReInsertServlet extends HttpServlet {
 		
 		
 		CommentDAO cdao=new CommentDAO();
-		ArrayList arr=cdao.commentReInsert(content, c_num, email);
+		CommentDTO cdto=new CommentDTO();
+		cdto=cdao.commentReInsert(content, c_num, email);
 				
 		StringBuffer result=new StringBuffer();
 		
-		JsonObject json=new JsonObject();
 		
-		String name=(String)arr.get(0);
-		int re_lev=(int) arr.get(1);
-		json.addProperty("name", name);
-		json.addProperty("re_lev", re_lev);
+		GsonBuilder builder=new GsonBuilder();
+		Gson gson=new Gson();
+		String json=gson.toJson(cdto);
+		System.out.println(json);
 								
 		result.append(json);
 		

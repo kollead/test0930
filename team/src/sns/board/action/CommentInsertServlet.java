@@ -10,7 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import sns.board.db.CommentDAO;
+import sns.board.db.CommentDTO;
 
 /**
  * Servlet implementation class CommentInsertServlet
@@ -39,11 +43,20 @@ public class CommentInsertServlet extends HttpServlet {
 		System.out.println(email);
 				
 		CommentDAO cdao=new CommentDAO();
-		String name=cdao.commentInsert(bNum,content,email);
-		System.out.println(name);
-		response.setContentType("text/html;charset=utf-8"); 
+		CommentDTO cdto= new CommentDTO();
+		
+		cdto=cdao.commentInsert(bNum,content,email);
+		
+		GsonBuilder builder=new GsonBuilder();
+		Gson gson=new Gson();
+		String json=gson.toJson(cdto);
+		System.out.println(json);
+		
+		StringBuffer result=new StringBuffer();
+		result.append(json);		
+		
 		response.setCharacterEncoding("utf-8");
-        response.getWriter().write(name);
+		response.getWriter().write(result.toString());
 	}
 
 }

@@ -31,10 +31,10 @@ $(document).ready(function(){
 function commLoad(){//코멘트를 로딩하는 펑션. post를 로딩할 때 commLoad() / commLoad(b_num)달아주시면 됩니다!
 	
 				
-	var bNum=1/* $().attr(post의 숨겨진 input의 bName).val();/data  */
-	var comment_HTML;
-	var getNum;	
-	var role;//email 세션값 
+	var bNum=1/* $().attr(post의 숨겨진 input의 bName).val();/data  보드넘버!!!*/ 
+	var comment_HTML; //코멘트 html
+	var getNum;	//더 불러올 코멘트의 갯수
+	var role;//email 세션값!!!
 	
 	
 	if($("#role").val()!=null){//email 세션 
@@ -73,7 +73,7 @@ function commLoad(){//코멘트를 로딩하는 펑션. post를 로딩할 때 co
 						comment_HTML+='<div class="more"><span class="more-optns"><i class="ti-more-alt"></i><ul><li onclick="toggleUpdate('+data[i].c_num+')"> 수정 </li><li onclick="commDelete('+data[i].c_num+')"> 삭제 </li></ul></span></div></div>';
 					}
 					
-					comment_HTML +='<p id="commContentP'+data[i].c_num+'">'+data[i].c_content+'</p></div></li><div id="replyDiv'+data[i].c_num+'"></div>';
+					comment_HTML +='<p id="commContentP'+data[i].c_num+'">'+data[i].c_content+'</p></div></li>';
 					//.we-comet p {
 					//word-break: break-all;
 					//} style.css
@@ -96,13 +96,14 @@ function commLoad(){//코멘트를 로딩하는 펑션. post를 로딩할 때 co
 					} */
 					
 					
+					comment_HTML +='<li class="post-comment post-reComment'+data[i].c_num+'" style="display:none; margin-left: 3%;"><div class="comet-avatar"><img src="./images/resources/comet-1.jpg" alt=""></div><div class="post-comt-box"><form method="post"><textarea id="reCommText'+data[i].c_num+'" placeholder="Post your comment"></textarea><button id="formButton" type="button" onclick="javascript:commReInsert('+data[i].c_num+');" style="float: right; margin-bottom:5px; margin-right:5px;">게시</button></form></div></li>';
+					comment_HTML +='<li class="post-comment post-updateComment'+data[i].c_num+'" style="display:none; margin-left: 3%;"><div class="comet-avatar"><img src="./images/resources/comet-1.jpg" alt=""></div><div class="post-comt-box"><form method="post"><textarea id="upCommText'+data[i].c_num+'" placeholder="Post your comment"></textarea><button id="formButton" type="button" onclick="javascript:commUpdate('+data[i].c_num+');" style="float: right; margin-bottom:5px; margin-right:5px;">수정</button></form></div></li><div id="replyDiv'+data[i].c_num+'"></div>';					
+					
 					if(data[i].re_lev>0){
 						comment_HTML +='</ul>';
 					}
-					
-					comment_HTML +='<li class="post-comment post-reComment'+data[i].c_num+'" style="display:none; margin-left: 3%;"><div class="comet-avatar"><img src="./images/resources/comet-1.jpg" alt=""></div><div class="post-comt-box"><form method="post"><textarea id="reCommText'+data[i].c_num+'" placeholder="Post your comment"></textarea><button id="formButton" type="button" onclick="javascript:commReInsert('+data[i].c_num+');" style="float: right; margin-bottom:5px; margin-right:5px;">게시</button></form></div></li>';
-					comment_HTML +='<li class="post-comment post-updateComment'+data[i].c_num+'" style="display:none; margin-left: 3%;"><div class="comet-avatar"><img src="./images/resources/comet-1.jpg" alt=""></div><div class="post-comt-box"><form method="post"><textarea id="upCommText'+data[i].c_num+'" placeholder="Post your comment"></textarea><button id="formButton" type="button" onclick="javascript:commUpdate('+data[i].c_num+');" style="float: right; margin-bottom:5px; margin-right:5px;">수정</button></form></div></li>';					
-					$(".we-comet").prepend(comment_HTML);					
+										
+					$(".we-comet").prepend(comment_HTML);	//.we-comet에 보드넘버 붙여주기				
 				}
 			
 		},
@@ -139,14 +140,6 @@ function commLoad(){//코멘트를 로딩하는 펑션. post를 로딩할 때 co
 		
 }
 
-function reload(){
-	
-	location.reload();	
-	 //$("#commarea1").load(window.location.href + " #commarea1");
-	//$( "#commarea1" ).load( "ajax/response.html #commarea1" );
-	//$("#commarea1").load("/main/main.jsp");
-	
-}
 
 
 function commInsert(){//script.js의 Post a Comment 수정
@@ -160,13 +153,20 @@ function commInsert(){//script.js의 Post a Comment 수정
 			url:"./CommentInsertServlet",
 			type: "POST",
 			data: {content:content, bNum:bNum},
-			dataType: "text",
+			dataType: "json",
 			success: function(data){
 				alert("success");
-				/* newComment_HTML = '<ul><li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li></ul>';
-				$(newComment_HTML).prependTo("#newCommt");//<li class="post-comment"> 위에 새 div인 newCommt를 추가했습니다
+				/*  newComment_HTML = '<ul><li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li></ul>';
 				 */
-				reload();
+				 newComment_HTML ='<ul><li id="commPara'+data.c_num+'"><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data.l_name+' '+data.f_name+'</a></h5><span>'+data.c_date+'</span><a class="we-reply" href="javascript:toggleReply('+data.c_num+');" title="Reply"><i class="fa fa-reply"></i></a>';
+				 newComment_HTML +='<div class="more"><span class="more-optns"><i class="ti-more-alt"></i><ul><li onclick="toggleUpdate('+data.c_num+')"> 수정 </li><li onclick="commDelete('+data.c_num+')"> 삭제 </li></ul></span></div></div>';
+				 newComment_HTML +='<p id="commContentP'+data.c_num+'">'+data.c_content+'</p></div></li>';				 
+				 
+				 newComment_HTML +='<li class="post-comment post-reComment'+data.c_num+'" style="display:none; margin-left: 3%;"><div class="comet-avatar"><img src="./images/resources/comet-1.jpg" alt=""></div><div class="post-comt-box"><form method="post"><textarea id="reCommText'+data.c_num+'" placeholder="Post your comment"></textarea><button id="formButton" type="button" onclick="javascript:commReInsert('+data.c_num+');" style="float: right; margin-bottom:5px; margin-right:5px;">게시</button></form></div></li>';
+				 newComment_HTML +='<li class="post-comment post-updateComment'+data.c_num+'" style="display:none; margin-left: 3%;"><div class="comet-avatar"><img src="./images/resources/comet-1.jpg" alt=""></div><div class="post-comt-box"><form method="post"><textarea id="upCommText'+data.c_num+'" placeholder="Post your comment"></textarea><button id="formButton" type="button" onclick="javascript:commUpdate('+data.c_num+');" style="float: right; margin-bottom:5px; margin-right:5px;">수정</button></form></div></li><div id="replyDiv'+data.c_num+'"></div></ul>';		
+				 
+				 $(newComment_HTML).prependTo("#newCommt");//<li class="post-comment"> 위에 새 div인 newCommt를 추가했습니다
+								
 				 $(".post-comt-box textarea").val('');
 			}, 
 			error: function(data){
@@ -203,12 +203,19 @@ function commReInsert(data){//reply 창 내용물 입력하기  //reInsert 대�
 			dataType: "json",
 			success: function(data){
 				alert("success");
-				var re_lev=data.re_lev;
-				var name=data.name;
-				/*  newComment_HTML = '<ul><li style="margin-left:'+(+re_lev*2)+'%;"><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+name+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li><div></div></ul>';
-				$(newComment_HTML).prependTo("#replyDiv"+c_num);//div id="replyDiv'+data[i].c_num+'"
-				 */
-				 reload();
+				
+				newComment_HTML ='<ul id="commPara'+data.c_num+'"><li style="margin-left:'+(+data.re_lev*2)+'%;"';
+				newComment_HTML +='><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+data.l_name+' '+data.f_name+'</a></h5><span>'+data.c_date+'</span><a class="we-reply" href="javascript:toggleReply('+data.c_num+');" title="Reply"><i class="fa fa-reply"></i></a>';
+				newComment_HTML+='<div class="more"><span class="more-optns"><i class="ti-more-alt"></i><ul><li onclick="toggleUpdate('+data.c_num+')"> 수정 </li><li onclick="commDelete('+data.c_num+')"> 삭제 </li></ul></span></div></div>';
+				newComment_HTML +='<p id="commContentP'+data.c_num+'">'+data.c_content+'</p></div></li>';
+				
+				newComment_HTML +='<li class="post-comment post-reComment'+data.c_num+'" style="display:none; margin-left: 3%;"><div class="comet-avatar"><img src="./images/resources/comet-1.jpg" alt=""></div><div class="post-comt-box"><form method="post"><textarea id="reCommText'+data.c_num+'" placeholder="Post your comment"></textarea><button id="formButton" type="button" onclick="javascript:commReInsert('+data.c_num+');" style="float: right; margin-bottom:5px; margin-right:5px;">게시</button></form></div></li>';
+				newComment_HTML +='<li class="post-comment post-updateComment'+data.c_num+'" style="display:none; margin-left: 3%;"><div class="comet-avatar"><img src="./images/resources/comet-1.jpg" alt=""></div><div class="post-comt-box"><form method="post"><textarea id="upCommText'+data.c_num+'" placeholder="Post your comment"></textarea><button id="formButton" type="button" onclick="javascript:commUpdate('+data.c_num+');" style="float: right; margin-bottom:5px; margin-right:5px;">수정</button></form></div></li><div id="replyDiv'+data.c_num+'"></div></ul>';		
+				 
+				/*   newComment_HTML = '<ul><li style="margin-left:'+(+re_lev*2)+'%;"><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">'+name+'</a></h5><span>now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+content+'</p></div></li><div></div></ul>';
+				 */$(newComment_HTML).prependTo("#replyDiv"+c_num);//div id="replyDiv'+data[i].c_num+'"
+				
+				 
 				 $("#reCommText"+c_num).val('');
 			},
 			error: function(data){
@@ -237,6 +244,7 @@ function commDelete(data){
 			//class="post-comment post-reComment'+data[i].c_num+'"
 			$("#commPara"+c_num).remove();
 			$(".post-reComment"+c_num).remove();
+			$(".post-updateComment"+c_num).remove(); 	
 			
 		},
 		error: function(data){
@@ -280,21 +288,19 @@ function commUpdate(data){
 	
 
 
-/* function date(data){
+ /* function date(data){
 	//날짜 차이 구해주기
 	alert(data);
 	
-	 var time1=Math.floor(data/1000);
+	  var time1=Math.floor(data/1000);
 	var time2=Math.floor(+ new Date()/ 1000);
 	
 	var time1=data;
 	var time2=targetDate.getTime();
-	var time3=time2-time1;
+	var time3=time2-time1; 
 	
-	var time3;
+	var time3=Math.floor(data/1000);
 	
-	alert("현재 타임 스탬프"+time2);
-	alert("등록시 타임스탬프"+time1);
 	
 	alert(time3);
 	
@@ -303,16 +309,16 @@ function commUpdate(data){
 	var day=hour*24;
 	var year=day*365;
 	
-	if((time2-time1)>year){
-		time3=Math.ceil((time2-time1)/year)+"년 전";
-	}else if((time2-time1)>day){
-		time3=Math.ceil((time2-time1)/day)+"일 전";
-	}else if((time2-time1)>hour){
-		time3=Math.ceil((time2-time1)/hour)+"시간 전";
-	}else if((time2-time1)>minute){
-		time3=Math.ceil((time2-time1)/minute)+"분 전";
+	if(time3>year){
+		time3=Math.ceil(time3/year)+"년 전";
+	}else if(time3>day){
+		time3=Math.ceil(time3/day)+"일 전";
+	}else if(time3>hour){
+		time3=Math.ceil(time3/hour)+"시간 전";
+	}else if(time3>minute){
+		time3=Math.ceil(time3/minute)+"분 전";
 	}else {
-		time3=time2-time1+"초 전";
+		time3=time3+"초 전";
 	}
 	
 	alert("시간차"+time3);
