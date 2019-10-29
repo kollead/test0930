@@ -76,7 +76,7 @@ public class CommentDAO {
 				System.out.println("lastInsert: "+last_index);
 			}
 			
-			sql="select c_num,b_num,c_content, c_date, email from comment where c_num=?";
+			sql="select c_num,b_num,c_content,c_date, email from comment where c_num=?";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setInt(1, last_index);
 			rs=pstmt.executeQuery();

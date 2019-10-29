@@ -126,6 +126,12 @@
             });
           
     }
+	
+	function deleteVidPre(){
+		alert("yeah");
+		$("#vid_preview").attr("src","");
+				
+	}
 </script>
 	<div class="central-meta new-pst">
 		<div class="new-postbox">
@@ -144,7 +150,7 @@
 					
 					<!-- 비디오 프리뷰 -->
 					<div id="video_preview">
-					<img id="vid_preview"/>
+					<img id="vid_preview" onclick="deleteVidPre();"/>
 					<video style="display: none;" controls>
     					<source type="video/mp4" >
 					</video>

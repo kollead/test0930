@@ -95,6 +95,10 @@
     	   
     }
     
+    function delete_vidPreview(){
+    	
+    }
+    
     </script>    
 </head>
 <body>

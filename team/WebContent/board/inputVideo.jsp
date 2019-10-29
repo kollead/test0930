@@ -68,8 +68,6 @@
 <br>
 <img/>
 <br>
-<video width="300" controls>
-	<source src="../vid/856118f4-44de-42c5-b30d-d317ffa32c13video3.MP4" type="video/mp4">
-</video>
+
 </body>
 </html>
