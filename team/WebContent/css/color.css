@@ -98,7 +98,7 @@ path.icon{
 /*=========================
 	BACKGROUND COLOR
 =========================*/
-#nprogress .bar, #formButton,
+#nprogress .bar, 
 .timeline-info > ul li a::before,
 .add-btn > a,
 .activitiez > li::before,

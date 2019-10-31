@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
             
     
-    <wb-module deploy-name="SnsProject">
+    <wb-module deploy-name="SnsProjectD">
                         
         
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
@@ -10,8 +10,8 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
                         
         
-        <property name="java-output-path" value="/SnsProject/build/classes"/>
-        <property name="context-root" value="SnsProject"/>
+        <property name="java-output-path" value="/SnsProjectD/build/classes"/>
+        <property name="context-root" value="SnsProjectD"/>
                     
     
     </wb-module>
