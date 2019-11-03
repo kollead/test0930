@@ -165,7 +165,7 @@ function commInsert(){//script.js의 Post a Comment 수정
 				 newComment_HTML +='<li class="post-comment post-reComment'+data.c_num+'" style="display:none; margin-left: 3%;"><div class="comet-avatar"><img src="./images/resources/comet-1.jpg" alt=""></div><div class="post-comt-box"><form method="post"><textarea id="reCommText'+data.c_num+'" placeholder="Post your comment"></textarea><button id="formButton" type="button" onclick="javascript:commReInsert('+data.c_num+');" style="float: right; margin-bottom:5px; margin-right:5px;">게시</button></form></div></li>';
 				 newComment_HTML +='<li class="post-comment post-updateComment'+data.c_num+'" style="display:none; margin-left: 3%;"><div class="comet-avatar"><img src="./images/resources/comet-1.jpg" alt=""></div><div class="post-comt-box"><form method="post"><textarea id="upCommText'+data.c_num+'" placeholder="Post your comment"></textarea><button id="formButton" type="button" onclick="javascript:commUpdate('+data.c_num+');" style="float: right; margin-bottom:5px; margin-right:5px;">수정</button></form></div></li><div id="replyDiv'+data.c_num+'"></div></ul>';		
 				 
-				 $(newComment_HTML).prependTo("#newCommt");//<li class="post-comment"> 위에 새 div인 newCommt를 추가했습니다
+				 $(newComment_HTML).appendTo("#newCommt");//<li class="post-comment"> 위에 새 div인 newCommt를 추가했습니다
 								
 				 $(".post-comt-box textarea").val('');
 			}, 
