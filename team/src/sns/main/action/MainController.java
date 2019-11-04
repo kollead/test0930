@@ -22,7 +22,7 @@ public class MainController extends HttpServlet{
 		if(command.equals("/Main.ma")){
 			forward = new ActionForward();
 			
-			forward.setPath("./main/main.jsp");
+			forward.setPath("./main/main2.jsp");
 			forward.setRedirect(false);
 		}
 		

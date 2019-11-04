@@ -14,6 +14,7 @@ public class CommentDTO {
 	private String l_name;
 	private int re_ref;
 	private int re_lev;
+	private int c_m_num;
 	
 	
 	public String getF_name() {
@@ -75,6 +76,12 @@ public class CommentDTO {
 	}
 	public void setRe_lev(int re_lev) {
 		this.re_lev = re_lev;
+	}
+	public int getC_m_num() {
+		return c_m_num;
+	}
+	public void setC_m_num(int c_m_num) {
+		this.c_m_num = c_m_num;
 	}
 
 }

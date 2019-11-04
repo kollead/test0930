@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -33,6 +34,10 @@ public class CommentReadServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		int bNum=Integer.parseInt(request.getParameter("bNum"));
 		int num=Integer.parseInt(request.getParameter("getNum"));
+				
+		CommentDTO cdto=new CommentDTO();
+		cdto.setB_num(bNum);
+				
 		System.out.println(bNum);
 		
 		response.setCharacterEncoding("UTF-8");		
@@ -45,8 +50,8 @@ public class CommentReadServlet extends HttpServlet {
 		ArrayList<CommentDTO> arr=new ArrayList<CommentDTO>();
 		StringBuffer result=new StringBuffer();
 		
-		CommentDAO cdao=new CommentDAO();		
-		
+		CommentDAO cdao=new CommentDAO();	
+				
 		arr=cdao.commentRead(bNum,num*5);
 		
 		GsonBuilder builder=new GsonBuilder();

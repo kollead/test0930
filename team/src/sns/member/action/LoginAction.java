@@ -24,6 +24,7 @@ public class LoginAction implements Action{
 		
 		MemberDAO mdao=new MemberDAO();		
 		int check=mdao.login(email, pass);
+		int m_num=mdao.getMyM_num(email);
 		
 		
 		if(check==0) {//비밀번호 오류
@@ -54,6 +55,7 @@ public class LoginAction implements Action{
 		
 		HttpSession session= request.getSession();
 		session.setAttribute("email", email);
+		session.setAttribute("m_num", m_num);
 		System.out.println("session 생성 : "+email);
 		
 		if(request.getParameter("loginCheck")!=null) {

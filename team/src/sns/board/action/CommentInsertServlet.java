@@ -41,11 +41,13 @@ public class CommentInsertServlet extends HttpServlet {
 		HttpSession session=request.getSession();
 		String email=(String)session.getAttribute("email");
 		System.out.println(email);
+		int m_num=(Integer)session.getAttribute("m_num");
+		System.out.println(m_num);
 				
 		CommentDAO cdao=new CommentDAO();
 		CommentDTO cdto= new CommentDTO();
 		
-		cdto=cdao.commentInsert(bNum,content,email);
+		cdto=cdao.commentInsert(bNum,content,m_num);
 		
 		GsonBuilder builder=new GsonBuilder();
 		Gson gson=new Gson();

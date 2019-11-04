@@ -9,6 +9,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import sns.member.db.MemberDAO;
 import sns.member.db.MemberDTO;
 
 public class CommentDAO {
@@ -38,17 +39,18 @@ public class CommentDAO {
 	
 	//cdao.commentInsert(bNum,content,email);
 	
-	public CommentDTO commentInsert(int bNum, String content, String email){
+	public CommentDTO commentInsert(int bNum, String content, int m_num){
 		String firstName="";
 		String lastName="";
 		CommentDTO cdto=new CommentDTO();
+		MemberDAO mdao=new MemberDAO();
 		int last_index=0;
 		
 		try {
 			con=getCon();
-			sql="select * from member where email=?";
+			sql="select * from member where m_num=?";
 			pstmt=con.prepareStatement(sql);
-			pstmt.setString(1, email);
+			pstmt.setInt(1, m_num);
 			rs=pstmt.executeQuery();
 			if(rs.next()){
 				firstName=rs.getString("f_name");
@@ -57,9 +59,9 @@ public class CommentDAO {
 			
 			//>>>>>sql update comment set re_ref=c_num<<<<<
 			
-			sql="insert into comment (email,b_num,c_content,re_seq,re_lev) values(?,?,?,?,?)";
+			sql="insert into comment (c_m_num,b_num,c_content,re_seq,re_lev) values(?,?,?,?,?)";
 			pstmt=con.prepareStatement(sql);
-			pstmt.setString(1, email);
+			pstmt.setInt(1, m_num);
 			pstmt.setInt(2, bNum);
 			pstmt.setString(3, content);
 			pstmt.setInt(4, 0);//sequence
@@ -76,7 +78,7 @@ public class CommentDAO {
 				System.out.println("lastInsert: "+last_index);
 			}
 			
-			sql="select c_num,b_num,c_content,c_date, email from comment where c_num=?";
+			sql="select c_num,b_num,c_content,c_date from comment where c_num=?";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setInt(1, last_index);
 			rs=pstmt.executeQuery();
@@ -86,12 +88,13 @@ public class CommentDAO {
 				cdto.setB_num(rs.getInt("b_num"));
 				cdto.setC_content(rs.getString("c_content"));
 				cdto.setC_date(rs.getTimestamp("c_date"));
-				cdto.setEmail(rs.getString("email"));
+				
 				
 								
 			}
 			cdto.setF_name(firstName);
 			cdto.setL_name(lastName);
+			cdto.setEmail(mdao.getEmail(m_num));
 			
 		} catch (Exception e) {			
 			e.printStackTrace();
@@ -106,7 +109,8 @@ public class CommentDAO {
 	
 	public ArrayList<CommentDTO> commentRead(int bNum,int num) {
 		ArrayList<CommentDTO> arr=new ArrayList<CommentDTO>();
-		
+		MemberDAO mdao=new MemberDAO();
+				
 		try {
 			con=getCon();
 			
@@ -125,7 +129,9 @@ public class CommentDAO {
 				cdto.setB_num(bNum);
 				cdto.setC_content(rs.getString("c_content"));
 				cdto.setC_date(rs.getTimestamp("c_date"));
-				cdto.setEmail(rs.getString("email"));
+				cdto.setC_m_num(rs.getInt("c_m_num"));
+				
+				cdto.setEmail(mdao.getEmail(cdto.getC_m_num()));
 				
 				cdto.setRe_seq(rs.getInt("re_seq"));
 				cdto.setRe_lev(rs.getInt("re_lev"));
@@ -173,11 +179,13 @@ public class CommentDAO {
 		return num;		
 	}
 	
-	public CommentDTO commentReInsert(String content, int c_num, String email){
+	public CommentDTO commentReInsert(String content, int c_num, int m_num){
 		//1. 이름가져오기용
 		String firstName="";
 		String lastName="";
 		int last_index=0;	
+		
+		MemberDAO mdao=new MemberDAO();
 				
 		//2. 가지고 온 c_num으로 대댓글이 달리게 될 댓글의 정보를 조회
 		CommentDTO cdto= new CommentDTO();
@@ -189,9 +197,9 @@ public class CommentDAO {
 		try {
 			con=getCon();
 			con=getCon();
-			sql="select * from member where email=?";
+			sql="select * from member where m_num=?";
 			pstmt=con.prepareStatement(sql);
-			pstmt.setString(1, email);
+			pstmt.setInt(1, m_num);
 			rs=pstmt.executeQuery();
 			if(rs.next()){
 				firstName=rs.getString("f_name");
@@ -220,9 +228,9 @@ public class CommentDAO {
 			
 			pstmt.executeUpdate();	
 			
-			sql="insert into comment (email,b_num,c_content,re_seq,re_lev,re_ref) values(?,?,?,?,?,?)";
+			sql="insert into comment (c_m_num,b_num,c_content,re_seq,re_lev,re_ref) values(?,?,?,?,?,?)";
 			pstmt=con.prepareStatement(sql);
-			pstmt.setString(1, email);
+			pstmt.setInt(1, m_num);
 			pstmt.setInt(2, cdto.getB_num());
 			pstmt.setString(3, content);
 			pstmt.setInt(4, cdto.getRe_seq()+1);//sequence
@@ -250,7 +258,7 @@ public class CommentDAO {
 				cdto.setB_num(rs.getInt("b_num"));
 				cdto.setC_content(rs.getString("c_content"));
 				cdto.setC_date(rs.getTimestamp("c_date"));
-				cdto.setEmail(rs.getString("email"));
+				cdto.setEmail(mdao.getEmail(m_num));
 				cdto.setF_name(firstName);
 				cdto.setL_name(lastName);
 				cdto.setRe_lev(rs.getInt("re_lev"));

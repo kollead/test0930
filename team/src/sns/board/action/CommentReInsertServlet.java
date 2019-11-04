@@ -36,11 +36,12 @@ public class CommentReInsertServlet extends HttpServlet {
 		HttpSession session=request.getSession();
 		String email=(String)session.getAttribute("email");
 		System.out.println(email);
+		int m_num=(Integer)session.getAttribute("m_num");
 		
 		
 		CommentDAO cdao=new CommentDAO();
 		CommentDTO cdto=new CommentDTO();
-		cdto=cdao.commentReInsert(content, c_num, email);
+		cdto=cdao.commentReInsert(content, c_num, m_num);
 				
 		StringBuffer result=new StringBuffer();
 		

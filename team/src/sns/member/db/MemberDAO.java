@@ -83,4 +83,52 @@ public class MemberDAO {
 		
 		return check;
 	}
+	
+	public String getEmail(int m_num) {
+		String email = "";
+		
+		try {
+			con = getCon();
+			
+			sql = "select email from SnsProject.member where m_num = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, m_num);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				email = rs.getString(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeDB();
+		}
+		
+		return email;
+	}
+	
+public int getMyM_num(String email) {
+		
+		try {
+			con = getCon();
+			
+			sql = "select m_num from SnsProject.member where email = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, email);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeDB();
+		}
+		
+		return 0;
+	}
 }
