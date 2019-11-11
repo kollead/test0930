@@ -115,6 +115,10 @@ function commLoad(boardNum){//b_num
 		
 }
 
+
+
+
+
 function commInsert(boardNum){//script.js의 Post a Comment 수정
 	alert("commButton");
 	
@@ -662,11 +666,13 @@ function commUpdate(data){
 		<div class="coment-area">
 		<ul class="we-comet commentUl<%=1%>"><!-- 추가로 로드된 코멘트들이 commentUl1에 prepend -->
 		
-		<%if(cLength-5>0){ %>
+		<%if(arr.size()>0){
+		
+		if(cLength-5>0){ %>
 				<li id="showMoreLi<%=1 %>"><a href="javascript:commLoad(1);" title="" class="showmore underline">more comments</a><input type="hidden" value="1" id="showMoreNum<%=1%>"></li>
 				<!-- //javascript:commLoad(1,1) //bNum, 초기 showmoreNum1 -->
 		<%}
-		for(int i = 4; i >= 0; i--){					
+		for(int i =arr.size()-1; i >= 0; i--){					
 										
 					if(arr.get(i).getRe_lev()>0){ %>
 						<ul id="commPara<%=arr.get(i).getC_num()%>"><li style="margin-left:<%=arr.get(i).getRe_lev()*2%>%;">
@@ -688,7 +694,7 @@ function commUpdate(data){
 					<%if(arr.get(i).getRe_lev()>0){ %>
 						</ul>
 					<%}
-					} %>
+					}} %>
 			<div id="newCommt<%=1%>"></div><!--  새로 insert 될 코멘트가 newCommt1 에 toPrepend -->
 			<li class="post-comment">
 				<div class="comet-avatar">

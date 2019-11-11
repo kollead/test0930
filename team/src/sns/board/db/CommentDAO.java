@@ -78,6 +78,12 @@ public class CommentDAO {
 				System.out.println("lastInsert: "+last_index);
 			}
 			
+			sql="update comment set re_ref=? where c_num=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, last_index);
+			pstmt.setInt(2, last_index);
+			pstmt.executeUpdate();
+			
 			sql="select c_num,b_num,c_content,c_date from comment where c_num=?";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setInt(1, last_index);
